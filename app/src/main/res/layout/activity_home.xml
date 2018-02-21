@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.team06.freehand.MainActivity">
+    tools:context="com.team06.freehand.HomeActivity">
 
     <Button
         android:id="@+id/explore_button"
