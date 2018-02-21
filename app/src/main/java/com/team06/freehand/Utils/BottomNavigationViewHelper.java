@@ -8,8 +8,10 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.team06.freehand.ChatActivity;
+import com.team06.freehand.ExploreActivity;
+import com.team06.freehand.ProfileActivity;
 import com.team06.freehand.R;
-import com.team06.freehand.HomeActivity;
 
 /**
  * Created by isabellepotvin on 2018-02-20.
@@ -39,29 +41,19 @@ public class BottomNavigationViewHelper {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 switch (item.getItemId()){
-                    case R.id.ic_house:
-                        Intent intent1 = new Intent(context, HomeActivity.class); //ACTIVITY_NUM = 0
+                    case R.id.ic_explore:
+                        Intent intent1 = new Intent(context, ExploreActivity.class); //ACTIVITY_NUM = 0
                         context.startActivity(intent1);
                         break;
 
-                    case R.id.ic_search:
-                        Intent intent2 = new Intent(context, SearchActivity.class); //ACTIVITY_NUM = 1
+                    case R.id.ic_chat:
+                        Intent intent2 = new Intent(context, ChatActivity.class); //ACTIVITY_NUM = 1
                         context.startActivity(intent2);
                         break;
 
-                    case R.id.ic_circle:
-                        Intent intent3 = new Intent(context, ShareActivity.class); //ACTIVITY_NUM = 2
+                    case R.id.ic_profile:
+                        Intent intent3 = new Intent(context, ProfileActivity.class); //ACTIVITY_NUM = 2
                         context.startActivity(intent3);
-                        break;
-
-                    case R.id.ic_alert:
-                        Intent intent4 = new Intent(context, LikesActivity.class); //ACTIVITY_NUM = 3
-                        context.startActivity(intent4);
-                        break;
-
-                    case R.id.ic_android:
-                        Intent intent5 = new Intent(context, ProfileActivity.class); //ACTIVITY_NUM = 4
-                        context.startActivity(intent5);
                         break;
 
                 }

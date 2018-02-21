@@ -11,11 +11,11 @@ import android.view.MenuItem;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.team06.freehand.Utils.BottomNavigationViewHelper;
 
-public class ExploreActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity {
 
-    private static final String TAG = "ExploreActivity";
-    private static final int ACTIVITY_NUM = 0;
-    private Context mContext = ExploreActivity.this;
+    private static final String TAG = "ChatActivity";
+    private static final int ACTIVITY_NUM = 1;
+    private Context mContext = ChatActivity.this;
 
 
     @Override
