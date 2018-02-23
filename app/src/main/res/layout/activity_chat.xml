@@ -16,7 +16,8 @@
         <!-- Top title and list of chats -->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="54dp">
 
             <include layout="@layout/layout_centre_chat"/>
 
