@@ -8,9 +8,9 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
-import com.team06.freehand.ChatActivity;
-import com.team06.freehand.ExploreActivity;
-import com.team06.freehand.ProfileActivity;
+import com.team06.freehand.Chat.ChatActivity;
+import com.team06.freehand.Explore.ExploreActivity;
+import com.team06.freehand.Profile.ProfileActivity;
 import com.team06.freehand.R;
 
 /**
@@ -26,7 +26,7 @@ public class BottomNavigationViewHelper {
         bottomNavigationViewEx.enableAnimation(false);
         bottomNavigationViewEx.enableItemShiftingMode(false);
         bottomNavigationViewEx.enableShiftingMode(false);
-        bottomNavigationViewEx.setTextVisibility(false);
+        bottomNavigationViewEx.setTextVisibility(true);
     }
 
 

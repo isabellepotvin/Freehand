@@ -1,4 +1,4 @@
-package com.team06.freehand;
+package com.team06.freehand.Explore;
 
 
 import android.content.Context;
@@ -9,13 +9,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.team06.freehand.R;
 import com.team06.freehand.Utils.BottomNavigationViewHelper;
 
-public class ChatActivity extends AppCompatActivity {
+public class ExploreActivity extends AppCompatActivity {
 
-    private static final String TAG = "ChatActivity";
-    private static final int ACTIVITY_NUM = 1;
-    private Context mContext = ChatActivity.this;
+    private static final String TAG = "ExploreActivity";
+    private static final int ACTIVITY_NUM = 0;
+    private Context mContext = ExploreActivity.this;
 
 
     @Override

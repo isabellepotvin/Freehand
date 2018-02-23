@@ -6,6 +6,15 @@
 
     <color name="white">#ffffff</color>
     <color name="grey">#bfbfbf</color>
+    <color name="black">#000000</color>
+
+    <color name="dark_grey">#2a2c2c</color>
+    <color name="light_grey">#abacac</color>
+    <color name="light_green">#d9e3d4</color>
+    <color name="forest_green">#2c4033</color>
+    <color name="eden_green">#145f58</color>
+
+
 
 
 </resources>

@@ -16,9 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ExploreActivity" />
-        <activity android:name=".ChatActivity" />
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".Explore.ExploreActivity" />
+        <activity android:name=".Chat.ChatActivity" />
+        <activity android:name=".Profile.ProfileActivity"></activity>
     </application>
 
 </manifest>
