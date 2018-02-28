@@ -25,28 +25,16 @@
         </RelativeLayout>
 
 
+
+
         <!--middle section (body)-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/relLayout2"
-            android:layout_below="@+id/relLayout1"
-            android:layout_marginBottom="54dp">
+            android:layout_below="@+id/relLayout1">
 
             <include layout="@layout/layout_center_viewpager"/>
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/floatingActionButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginBottom="53dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
-                android:clickable="true"
-                app:srcCompat="@drawable/ic_yes" />
 
         </RelativeLayout>
 
