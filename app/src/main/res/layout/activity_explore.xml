@@ -14,13 +14,13 @@
         android:layout_height="match_parent">
 
 
-        <!--top toolbar-->
+        <!--top title-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/relLayout1">
 
-            <include layout="@layout/layout_top_tabs"/>
+            <include layout="@layout/snippet_top_explore"/>
 
         </RelativeLayout>
 
@@ -35,28 +35,22 @@
 
             <include layout="@layout/layout_center_viewpager"/>
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/floatingActionButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginBottom="53dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
-                android:clickable="true"
-                app:srcCompat="@drawable/ic_yes" />
+        </RelativeLayout>
+
+        <!--user information-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="54dp">
+
+            <include layout="@layout/layout_explore_userinfo" />
 
         </RelativeLayout>
 
 
-
         <!--bottom navigation-->
         <include layout="@layout/layout_bottom_navigation_view"/>
-
-
-
 
 
     </RelativeLayout>

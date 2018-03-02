@@ -28,9 +28,10 @@ public class BottomNavigationViewHelper {
         bottomNavigationViewEx.enableShiftingMode(false);
         bottomNavigationViewEx.setTextVisibility(false);
 
-        bottomNavigationViewEx.setIconSize(35.0f, 35.0f);
-        bottomNavigationViewEx.setIconsMarginTop(3);
-
+       bottomNavigationViewEx.setIconSize(36.0f, 36.0f);
+       bottomNavigationViewEx.setIconSizeAt(1, 39.0f, 39.0f);
+       bottomNavigationViewEx.setIconsMarginTop(0);
+       bottomNavigationViewEx.setTextSize(0.0f);
 
     }
 

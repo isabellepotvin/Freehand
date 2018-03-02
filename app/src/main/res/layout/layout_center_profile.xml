@@ -37,82 +37,16 @@
 
             </RelativeLayout>
 
-
-            <!-- bio description -->
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_below="@+id/photo"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:id="@+id/bio">
+                android:layout_below="@+id/photo">
 
-                <!--name-->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/name"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:text="Isabelle"
-                    android:textSize="18sp"
-                    android:gravity="center_horizontal"/>
-
-                <!--name and location-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginTop="5dp">
-
-                    <!--age-->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/age"
-                        android:textColor="@color/light_grey"
-                        android:text="Age 23"
-                        android:textSize="14sp"/>
-
-                    <!--vertical line-->
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="fill_parent"
-                        android:background="@color/light_grey"
-                        android:id="@+id/vertLine"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginLeft="6dp"
-                        android:layout_marginEnd="6dp"
-                        android:layout_marginRight="6dp"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginBottom="2dp"/>
+                <include layout="@layout/snippet_userinformation"/>
 
 
-                    <!--location-->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/location"
-                        android:textColor="@color/light_grey"
-                        android:text="Ottawa, ON"
-                        android:textSize="14sp"/>
+            </RelativeLayout>
 
-                </LinearLayout>
-
-                <!--description-->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/description"
-                    android:textColor="@color/black"
-                    android:text="I am an artist. I have a passion for drawing and painting. I grew up learning from the best and expressing my creativity. I love art!"
-                    android:textSize="16sp"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center_horizontal"/>
-
-            </LinearLayout>
 
         </RelativeLayout>
 

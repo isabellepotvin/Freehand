@@ -1,42 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<merge
+<merge xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <android.support.design.widget.AppBarLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_alignParentTop="true"
         android:background="@drawable/grey_border_bottom_white"
-        >
+        android:orientation="horizontal"
+        android:gravity="center">
 
-        <android.support.v7.widget.Toolbar
-            android:layout_width="match_parent"
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_freehand_hand_black"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/profileToolbar">
+            android:text="@string/app_name"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    </LinearLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="freehand"
-                    android:textSize="20sp"
-                    android:textColor="@color/black"
-                    android:id="@+id/profileName"
-                    android:src="@drawable/freehand_text"
-                    />
-
-
-            </RelativeLayout>
-
-
-
-        </android.support.v7.widget.Toolbar>
-
-
-    </android.support.design.widget.AppBarLayout>
 
 </merge>
