@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.team06.freehand">
 
-
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -26,6 +28,8 @@
         <activity android:name=".Login.LoginActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".Login.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Profile.AccountSettingsActivity"
             android:screenOrientation="portrait" />
     </application>
 

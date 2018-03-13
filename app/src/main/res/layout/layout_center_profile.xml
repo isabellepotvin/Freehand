@@ -23,7 +23,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/photo">
+                android:id="@+id/relLayout2">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="100dp"
@@ -35,12 +35,23 @@
                     android:layout_centerHorizontal="true"
                     android:src="@drawable/ic_silhouette"/>
 
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_settings"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="10dp"
+                    android:id="@+id/btn_settings"
+                    />
+
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/photo">
+                android:layout_below="@+id/relLayout2"
+                android:layout_marginTop="5dp">
 
                 <include layout="@layout/snippet_userinformation"/>
 
