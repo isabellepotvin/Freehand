@@ -1,6 +1,7 @@
 package com.team06.freehand.Profile;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,6 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.team06.freehand.Dialogs.ConfirmPasswordDialog;
 import com.team06.freehand.Models.User;
 import com.team06.freehand.R;
+import com.team06.freehand.Share.ShareActivity;
 import com.team06.freehand.Utils.FirebaseMethods;
 import com.team06.freehand.Utils.UniversalImageLoader;
 
@@ -243,6 +245,17 @@ public class EditProfileFragment extends Fragment implements ConfirmPasswordDial
         mLocation.setText(user.getLocation());
         mDescription.setText(user.getDescription());
         mEmail.setText(user.getEmail());
+
+        mChangeProfilePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: changing profile photo.");
+                Intent intent = new Intent(getActivity(), ShareActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //will give it a number of 268435456 (important that it is not zero)
+                getActivity().startActivity(intent);
+                getActivity().finish();
+            }
+        });
 
     }
 

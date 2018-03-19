@@ -16,6 +16,7 @@
 
     <!--Firebase database fields-->
     <string name="dnname_users">users</string>
+    <string name="dbname_user_photos">user_photos</string>
     <string name="field_email">email</string>
     <string name="field_name">name</string>
     <string name="field_age">age</string>
@@ -27,9 +28,25 @@
 
     <!--Intent Extras-->
     <string name="calling_activity">calling_activity</string>
+    <string name="selected_image">selected_image</string>
+    <string name="selected_bitmap">selected_bitmap</string>
+    <string name="return_to_fragment">return_to_fragment</string>
 
     <!--Activity Names-->
     <string name="profile_activity">Profile Activity</string>
+    <string name="share_activity">Share Activity</string>
+
+
+    <!--photo types-->
+    <string name="new_photo">new_photo</string>
+    <string name="profile_photo">profile_photo</string>
+
+    <!--strings-->
+    <string name="string_gallery">GALLERY</string>
+    <string name="string_photo">PHOTO</string>
+    <string name="string_open_camera">OPEN CAMERA</string>
+    <string name="string_select">Select</string>
+    <string name="string_upload">Upload</string>
 
 
 </resources>

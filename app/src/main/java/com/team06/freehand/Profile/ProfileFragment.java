@@ -23,13 +23,19 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.team06.freehand.Models.Photo;
 import com.team06.freehand.Models.User;
 import com.team06.freehand.R;
+import com.team06.freehand.Share.ShareActivity;
 import com.team06.freehand.Utils.BottomNavigationViewHelper;
 import com.team06.freehand.Utils.FirebaseMethods;
+import com.team06.freehand.Utils.GridImageAdapter;
 import com.team06.freehand.Utils.UniversalImageLoader;
+
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -42,6 +48,7 @@ public class ProfileFragment extends Fragment {
     private static final String TAG = "ProfileFragment";
 
     private static final int ACTIVITY_NUM = 2;
+    private static final int NUM_GRID_COLUMNS = 2;
 
     //firebase
     private FirebaseAuth mAuth;
@@ -50,7 +57,7 @@ public class ProfileFragment extends Fragment {
     private DatabaseReference myRef;
     private FirebaseMethods mFirebaseMethods;
 
-
+    //widgets
     private TextView mName, mAge, mLocation, mDescription;
     private ProgressBar mProgressBar;
     private CircleImageView mProfilePhoto;
@@ -58,7 +65,7 @@ public class ProfileFragment extends Fragment {
     private TextView mTextAge;
 
     private GridView gridView;
-    private ImageView settingsBtn;
+    private ImageView settingsBtn, addBtn;
     BottomNavigationViewEx bottomNavigationView;
 
     private Context mContext;
@@ -81,6 +88,7 @@ public class ProfileFragment extends Fragment {
 
         gridView = (GridView) view.findViewById(R.id.gridView);
         settingsBtn = (ImageView) view.findViewById(R.id.btn_settings);
+        addBtn = (ImageView) view.findViewById(R.id.btn_add);
         bottomNavigationView = (BottomNavigationViewEx) view.findViewById(R.id.bottomNavViewBar);
         mContext = getActivity();
         mFirebaseMethods = new FirebaseMethods(getActivity());
@@ -88,11 +96,57 @@ public class ProfileFragment extends Fragment {
         Log.d(TAG, "onCreateView: started.");
 
         setupBottomNavigationView();
+
+        //buttons
         setupSettingsBtn();
+        setupAddBtn();
 
         setupFirebaseAuth();
+        setupGridView();
 
         return view;
+    }
+
+
+    private void setupGridView(){
+        Log.d(TAG, "setupGridView: Setting up image grid.");
+
+        final ArrayList<Photo> photos = new ArrayList<>();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        Query query = reference
+                .child(getString(R.string.dbname_user_photos))
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for( DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
+                    photos.add(singleSnapshot.getValue(Photo.class));
+                }
+
+                //setup image grid
+                int gridWidth = getResources().getDisplayMetrics().widthPixels;
+                int imageWidth = gridWidth/NUM_GRID_COLUMNS;
+                gridView.setColumnWidth(imageWidth);
+
+                ArrayList<String> imgUrls = new ArrayList<String>();
+
+                //add images to imgUrls array
+                for(int i = 0; i < photos.size(); i++){
+                    imgUrls.add(photos.get(i).getImage_path());
+                }
+
+                GridImageAdapter adapter = new GridImageAdapter(getActivity(), R.layout.layout_grid_imageview, "", imgUrls);
+                gridView.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d(TAG, "onCancelled: query cancelled.");
+            }
+        });
     }
 
     private void setProfileWidgets(User user){
@@ -115,7 +169,7 @@ public class ProfileFragment extends Fragment {
     }
 
     /**
-     * method that sets up toolbar
+     * method that sets up settings button
      */
     private void setupSettingsBtn(){
 
@@ -127,6 +181,22 @@ public class ProfileFragment extends Fragment {
                 Intent intent = new Intent(mContext, AccountSettingsActivity.class);
                 startActivity(intent);
                 //getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        });
+
+    }
+
+    /**
+     * method that sets up add button
+     */
+    private void setupAddBtn(){
+
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: navigating to share activity.");
+                Intent intent = new Intent(getActivity(), ShareActivity.class);
+                getActivity().startActivity(intent);
             }
         });
 

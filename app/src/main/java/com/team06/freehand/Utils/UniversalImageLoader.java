@@ -39,21 +39,27 @@ public class UniversalImageLoader {
                 .showImageOnLoading(defaultImage)
                 .showImageForEmptyUri(defaultImage)
                 .showImageOnFail(defaultImage)
-                .cacheOnDisk(true).cacheInMemory(true)
+                .cacheOnDisk(true)
+                .cacheInMemory(true)
                 .cacheOnDisk(true).resetViewBeforeLoading(true)
                 .imageScaleType(ImageScaleType.EXACTLY)
-                .displayer(new FadeInBitmapDisplayer(300)).build();
+                .displayer(new FadeInBitmapDisplayer(300))
+                .bitmapConfig(Bitmap.Config.RGB_565) //added this to deal with out of memory an error
+                .build();
 
         ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(mContext)
                 .defaultDisplayImageOptions(defaultOptions)
                 .memoryCache(new WeakMemoryCache())
-                .diskCacheSize(100 * 1024 * 1024).build();
+                .diskCacheSize(100 * 1024 * 1024)
+                .diskCacheExtraOptions(480, 320, null) //added this to deal with out of memory an error
+                .threadPoolSize(1) //added this to deal with out of memory an error
+                .build();
 
         return configuration;
     }
 
     /**
-     * this methdd can be used to set images that are static. It can't be used if the images are
+     * this method can be used to set images that are static. It can't be used if the images are
      * being changed in the Fragment/Activity - OR if they are being set in a list or a grid
      * @param imgURL
      * @param image
