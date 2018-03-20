@@ -33,7 +33,17 @@
             android:layout_below="@+id/relLayout1"
             android:layout_marginBottom="54dp">
 
-            <include layout="@layout/layout_center_viewpager"/>
+            <GridView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/gridViewExplore"
+                android:numColumns="1"
+                android:verticalSpacing="1dp"
+                android:horizontalSpacing="1dp"
+                android:stretchMode="columnWidth"
+                android:gravity="center" >
+
+            </GridView>
 
         </RelativeLayout>
 
@@ -52,9 +62,14 @@
         <!--bottom navigation-->
         <include layout="@layout/layout_bottom_navigation_view"/>
 
+        <ProgressBar
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:id="@+id/progressBar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"/>
 
     </RelativeLayout>
-
 
 
 </android.support.design.widget.CoordinatorLayout>

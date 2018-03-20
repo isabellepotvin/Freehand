@@ -5,11 +5,11 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <com.team06.freehand.Utils.SquareImageView
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:id="@+id/grid_squareImageView" />
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:id="@+id/grid_imageView" />
 
     <ProgressBar
         android:layout_width="50dp"

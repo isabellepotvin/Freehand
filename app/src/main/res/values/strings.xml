@@ -15,7 +15,7 @@
     <string name="auth_success">Authentication success.</string>
 
     <!--Firebase database fields-->
-    <string name="dnname_users">users</string>
+    <string name="dbname_users">users</string>
     <string name="dbname_user_photos">user_photos</string>
     <string name="field_email">email</string>
     <string name="field_name">name</string>
@@ -40,6 +40,12 @@
     <!--photo types-->
     <string name="new_photo">new_photo</string>
     <string name="profile_photo">profile_photo</string>
+
+    <!--image types-->
+    <string name="img_squareImageView">img_squareImageView</string>
+    <string name="img_imageView">img_imageView</string>
+
+
 
     <!--strings-->
     <string name="string_gallery">GALLERY</string>

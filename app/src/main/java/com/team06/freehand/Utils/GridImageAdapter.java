@@ -4,11 +4,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -31,9 +31,10 @@ public class GridImageAdapter extends ArrayAdapter<String>{
     private int layoutResource;
     private String mAppend;
     private ArrayList<String> imgURLs;
+    private String imgType;
 
     //constructor
-    public GridImageAdapter(Context context, int layoutResource, String append, ArrayList<String> imgURLs) {
+    public GridImageAdapter(Context context, int layoutResource, String append, ArrayList<String> imgURLs, String imgType) {
         super(context, layoutResource, imgURLs);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -43,10 +44,12 @@ public class GridImageAdapter extends ArrayAdapter<String>{
         this.layoutResource = layoutResource;
         mAppend = append;
         this.imgURLs = imgURLs;
+        this.imgType = imgType;
     }
 
-    private static class ViewHolder{
-        SquareImageView image;
+
+    private static class ViewHolder<T>{
+        T image;
         ProgressBar mProgressBar;
     }
 
@@ -54,18 +57,20 @@ public class GridImageAdapter extends ArrayAdapter<String>{
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        /*
-        Viewholder build pattern (Similar to recyclerview)
-         */
 
-        //Log.d(TAG, "getView: Getting View.");  //I added this for testing purposes
+        final ViewHolder<SquareImageView> holder;
 
-        final ViewHolder holder;
         if(convertView == null){
             convertView = mInflater.inflate(layoutResource, parent, false);
             holder = new ViewHolder();
             holder.mProgressBar = (ProgressBar) convertView.findViewById(R.id.gridImageProgressBar);
-            holder.image = (SquareImageView) convertView.findViewById(R.id.gridImageView);
+
+//            if(imgType.equals(R.string.img_imageView)) { //if regular image view
+//                holder.image = (ImageView) convertView.findViewById(R.id.grid_imageView);
+//            }
+//            else{ //if square image view
+                holder.image = (SquareImageView) convertView.findViewById(R.id.grid_squareImageView);
+//            }
 
             convertView.setTag(holder); //stores the entire ViewHolder
         }

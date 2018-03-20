@@ -14,6 +14,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthActionCodeException;
+import com.google.firebase.auth.FirebaseAuthEmailException;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -22,8 +29,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.team06.freehand.Explore.ExploreActivity;
-import com.team06.freehand.HomeActivity;
+import com.team06.freehand.Login.LoginActivity;
 import com.team06.freehand.Models.Photo;
 import com.team06.freehand.Models.User;
 import com.team06.freehand.Profile.AccountSettingsActivity;
@@ -200,7 +206,7 @@ public class FirebaseMethods {
     private void setProfilePhoto(String url){
         Log.d(TAG, "setProfilePhoto: settings new profile image: " + url);
 
-        myRef.child(mContext.getString(R.string.dnname_users))
+        myRef.child(mContext.getString(R.string.dbname_users))
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child(mContext.getString(R.string.profile_photo))
                 .setValue(url);
@@ -257,28 +263,28 @@ public class FirebaseMethods {
         //updates users information in database
 
         if(name != null) {
-            myRef.child(mContext.getString(R.string.dnname_users))
+            myRef.child(mContext.getString(R.string.dbname_users))
                     .child(userID)
                     .child(mContext.getString(R.string.field_name))
                     .setValue(name);
         }
 
         if(age != 0) {
-            myRef.child(mContext.getString(R.string.dnname_users))
+            myRef.child(mContext.getString(R.string.dbname_users))
                     .child(userID)
                     .child(mContext.getString(R.string.field_age))
                     .setValue(age);
         }
 
         if(location != null) {
-            myRef.child(mContext.getString(R.string.dnname_users))
+            myRef.child(mContext.getString(R.string.dbname_users))
                     .child(userID)
                     .child(mContext.getString(R.string.field_location))
                     .setValue(location);
         }
 
         if(description != null) {
-            myRef.child(mContext.getString(R.string.dnname_users))
+            myRef.child(mContext.getString(R.string.dbname_users))
                     .child(userID)
                     .child(mContext.getString(R.string.field_description))
                     .setValue(description);
@@ -296,7 +302,7 @@ public class FirebaseMethods {
         Log.d(TAG, "updateEmail: updating email to " + email);
 
         //updates users node
-        myRef.child(mContext.getString(R.string.dnname_users))
+        myRef.child(mContext.getString(R.string.dbname_users))
                 .child(userID)
                 .child(mContext.getString(R.string.field_email))
                 .setValue(email);
@@ -310,7 +316,7 @@ public class FirebaseMethods {
      * @param email
      * @param password
      */
-    public void registerNewEmail(final String email, String password){
+    public void registerNewEmail(final String email, String password, final Context context){
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -321,8 +327,8 @@ public class FirebaseMethods {
                         // If authentication fails, display a message to the user.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(mContext, R.string.auth_failed, Toast.LENGTH_SHORT).show();
 
+                            displayAuthErrorMessages(context, task);
                         }
                         //if successful
                         else if (task.isSuccessful()) {
@@ -336,6 +342,45 @@ public class FirebaseMethods {
 
                     }
                 });
+
+    }
+
+    public void displayAuthErrorMessages(Context context, @NonNull Task<AuthResult> task){
+        try {
+            throw task.getException();
+        } catch(FirebaseAuthWeakPasswordException e) {
+            Toast.makeText(context, e.getReason(), Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "signInWithEmail:failure: " + e.getErrorCode());
+            Log.d(TAG, "signInWithEmail:failure: " + e.getReason());
+
+        } catch(FirebaseAuthActionCodeException e) {
+            Toast.makeText(context, e.getErrorCode(), Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "signInWithEmail:failure: " + e.getErrorCode());
+
+        } catch(FirebaseAuthEmailException e) {
+            Toast.makeText(context, e.getErrorCode(), Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "signInWithEmail:failure: " + e.getErrorCode());
+
+        } catch(FirebaseAuthInvalidCredentialsException e) {
+            Toast.makeText(context, e.getErrorCode(), Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "signInWithEmail:failure: " + e.getErrorCode());
+
+        } catch(FirebaseAuthInvalidUserException e) {
+            Toast.makeText(context, e.getErrorCode(), Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "signInWithEmail:failure: " + e.getErrorCode());
+
+        } catch(FirebaseAuthRecentLoginRequiredException e) {
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "signInWithEmail:failure: " + e.getErrorCode());
+
+        } catch(FirebaseAuthUserCollisionException e) {
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "signInWithEmail:failure: " + e.getErrorCode());
+        } catch(Exception e) {
+            Toast.makeText(context, context.getString(R.string.auth_failed), Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "signInWithEmail:failure: " + e.getMessage());
+
+        }
 
     }
 
@@ -375,7 +420,7 @@ public class FirebaseMethods {
         User user = new User(userID, email, name, age, location, "", 0, profile_photo);
 
         //users node
-        myRef.child(mContext.getString(R.string.dnname_users))
+        myRef.child(mContext.getString(R.string.dbname_users))
                 .child(userID)
                 .setValue(user);
     }
@@ -394,7 +439,7 @@ public class FirebaseMethods {
         for(DataSnapshot ds: dataSnapshot.getChildren()){
 
             // users node
-            if(ds.getKey().equals(mContext.getString(R.string.dnname_users))) { //user account settings node
+            if(ds.getKey().equals(mContext.getString(R.string.dbname_users))) { //user account settings node
                 Log.d(TAG, "getUserAccountSettings: datasnapshot: " + ds); //useful for debugging
 
                 user.setUser_id(
@@ -446,13 +491,14 @@ public class FirebaseMethods {
                 );
 
 
-                Log.d(TAG, "getUserAccountSettings: retrieved user information " + user.toString());
+                Log.d(TAG, "getUserInfo: retrieved user information " + user.toString());
 
             }
         }
 
         return user;
     }
+
 
 }
 

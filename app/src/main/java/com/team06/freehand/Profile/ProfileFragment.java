@@ -137,7 +137,7 @@ public class ProfileFragment extends Fragment {
                     imgUrls.add(photos.get(i).getImage_path());
                 }
 
-                GridImageAdapter adapter = new GridImageAdapter(getActivity(), R.layout.layout_grid_imageview, "", imgUrls);
+                GridImageAdapter adapter = new GridImageAdapter(getActivity(), R.layout.layout_grid_imageview, "", imgUrls, getString(R.string.img_squareImageView));
                 gridView.setAdapter(adapter);
 
             }

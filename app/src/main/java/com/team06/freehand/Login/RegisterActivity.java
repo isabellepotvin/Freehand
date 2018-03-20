@@ -77,7 +77,10 @@ public class RegisterActivity extends AppCompatActivity {
                     mProgressBar.setVisibility(View.VISIBLE);
                     loadingPleaseWait.setVisibility(View.VISIBLE);
 
-                    firebaseMethods.registerNewEmail(email, password);
+                    firebaseMethods.registerNewEmail(email, password, mContext);
+
+                    mProgressBar.setVisibility(View.GONE);
+                    loadingPleaseWait.setVisibility(View.GONE);
                 }
             }
         });
@@ -89,7 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(mContext, "All fields must be filled out.", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(Long.parseLong(age) < 18){
+        if(Long.parseLong(age) <= 18){
             Toast.makeText(mContext, "Sorry, you must be 18 or older to create an account.", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -148,23 +151,27 @@ public class RegisterActivity extends AppCompatActivity {
                     myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) { //success
+
                             //add new user to the database
                             firebaseMethods.addNewUser(email, name, Long.parseLong(age), location, "");
 
                             Toast.makeText(mContext, "Signup successful. Sending verification email.", Toast.LENGTH_SHORT).show();
 
                             mAuth.signOut(); //signs the user out so they check the verification email
+
                         }
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) { //error
 
                         }
+
                     });
 
                     finish(); //finishes the activity (goes back to previous activity)
 
                 } else{
+
                     //user is signed out
                     Log.d(TAG, "onAuthStateChanged: signed_out");
                 }
