@@ -10,8 +10,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -59,6 +61,7 @@ public class ExploreActivity extends AppCompatActivity {
     private TextView mTextAge;
     private GridView gridView;
     private CircleImageView btnYes, btnNo;
+    RelativeLayout rl_userinfo, rl_gridview;
 
     //vars
     private String randomUserID = null;
@@ -81,6 +84,8 @@ public class ExploreActivity extends AppCompatActivity {
         gridView = (GridView) findViewById(R.id.gridViewExplore);
         btnYes = (CircleImageView) findViewById(R.id.btn_yes);
         btnNo = (CircleImageView) findViewById(R.id.btn_no);
+        rl_userinfo = (RelativeLayout) findViewById(R.id.relLayout_userinfo);
+        rl_gridview = (RelativeLayout) findViewById(R.id.relLayout_gridview);
 
         mFirebaseMethods = new FirebaseMethods(mContext);
 
@@ -145,6 +150,9 @@ public class ExploreActivity extends AppCompatActivity {
                 setupGridView(randomUserID);
                 setupUserInfo(randomUserID);
                 Log.d(TAG, "displayNewUser: user id: " + randomUserID);
+
+                //updateLayoutSizes();
+
             }
 
             @Override
@@ -229,6 +237,22 @@ public class ExploreActivity extends AppCompatActivity {
         });
     }
 
+    private void updateLayoutSizes(){
+
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+        );
+
+        int userinfoHeight = rl_userinfo.getHeight();
+        Log.d(TAG, "updateLayoutSizes: height: " + userinfoHeight);
+
+        //set the bottom margin of the grid view
+        params.setMargins(0, 0, 0, userinfoHeight); //bottom margin: height of description box
+        gridView.setLayoutParams(params);
+
+
+    }
 
     /**
      * Universal Image Loader
