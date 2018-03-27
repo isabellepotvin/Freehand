@@ -2,6 +2,28 @@
 
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/container">
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>
+
+<!--
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Top title and list of chats -->
+        Top title and list of chats
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,7 +46,7 @@
         </RelativeLayout>
 
 
-        <!--bottom navigation-->
+        bottom navigation
         <include layout="@layout/layout_bottom_navigation_view"/>
 
     </RelativeLayout>
@@ -32,3 +54,4 @@
 
 
 </android.support.design.widget.CoordinatorLayout>
+-->

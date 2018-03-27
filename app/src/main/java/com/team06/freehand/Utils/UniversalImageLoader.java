@@ -40,7 +40,7 @@ public class UniversalImageLoader {
                 .showImageForEmptyUri(defaultImage)
                 .showImageOnFail(defaultImage)
                 .cacheOnDisk(true)
-                .cacheInMemory(true)
+                .cacheInMemory(false) //changed this to false to deal with out of memory an error
                 .cacheOnDisk(true).resetViewBeforeLoading(true)
                 .imageScaleType(ImageScaleType.EXACTLY)
                 .displayer(new FadeInBitmapDisplayer(300))
@@ -52,7 +52,7 @@ public class UniversalImageLoader {
                 .memoryCache(new WeakMemoryCache())
                 .diskCacheSize(100 * 1024 * 1024)
                 .diskCacheExtraOptions(480, 320, null) //added this to deal with out of memory an error
-                .threadPoolSize(1) //added this to deal with out of memory an error
+                .threadPoolSize(3) //added this to deal with out of memory an error
                 .build();
 
         return configuration;

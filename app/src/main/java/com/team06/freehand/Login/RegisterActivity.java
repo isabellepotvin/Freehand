@@ -77,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
                     mProgressBar.setVisibility(View.VISIBLE);
                     loadingPleaseWait.setVisibility(View.VISIBLE);
 
-                    firebaseMethods.registerNewEmail(email, password, mContext);
+                    firebaseMethods.registerNewEmail(email, password);
 
                     mProgressBar.setVisibility(View.GONE);
                     loadingPleaseWait.setVisibility(View.GONE);

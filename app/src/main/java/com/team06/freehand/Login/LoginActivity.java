@@ -28,8 +28,10 @@ import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.team06.freehand.Explore.ExploreActivity;
 import com.team06.freehand.R;
+import com.team06.freehand.Utils.FirebaseMethods;
 
 import org.w3c.dom.Text;
 
@@ -44,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
     //firebase
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseMethods mFirebaseMethods;
+
 
     private Context mContext;
     private ProgressBar mProgressBar;
@@ -60,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         mEmail = (EditText) findViewById(R.id.input_email);
         mPassword = (EditText) findViewById(R.id.input_password);
         mContext = LoginActivity.this;
+        mFirebaseMethods = new FirebaseMethods(mContext);
 
         Log.d(TAG, "onCreate: started.");
 
@@ -121,6 +126,8 @@ public class LoginActivity extends AppCompatActivity {
                                         // If sign in fails, display a message to the user.
                                         Log.w(TAG, "signInWithEmail:failure", task.getException());
 
+                                        mFirebaseMethods.displayAuthErrorMessages(task);
+
 
 
                                         mProgressBar.setVisibility(View.GONE);
@@ -130,11 +137,11 @@ public class LoginActivity extends AppCompatActivity {
                                     else { //if successful
                                         try{
                                             if(user.isEmailVerified()){
-                                                Log.d(TAG, "onComplete: success. email is verified.");
+                                                Log.d(TAG, "onComplete: Success. Email is verified.");
                                                 Intent intent = new Intent(LoginActivity.this, ExploreActivity.class);
                                                 startActivity(intent);
                                             }else{
-                                                Toast.makeText(mContext, "Email is not verified \n check your email inbox.", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(mContext, "Email is not verified. \nCheck your email inbox.", Toast.LENGTH_SHORT).show();
                                                 mProgressBar.setVisibility(View.GONE);
                                                 mPleaseWait.setVisibility(View.GONE);
                                                 mAuth.signOut();

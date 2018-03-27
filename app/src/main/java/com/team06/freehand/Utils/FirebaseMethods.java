@@ -30,8 +30,10 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.team06.freehand.Login.LoginActivity;
+import com.team06.freehand.Models.ChatMessage;
 import com.team06.freehand.Models.Photo;
 import com.team06.freehand.Models.User;
+import com.team06.freehand.Models.UserChats;
 import com.team06.freehand.Profile.AccountSettingsActivity;
 import com.team06.freehand.Profile.ProfileActivity;
 import com.team06.freehand.R;
@@ -74,6 +76,66 @@ public class FirebaseMethods {
         }
     }
 
+
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - Chat Related Methods - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    public void uploadNewMessage(String chatID, String message, String otherUserID){
+        Log.d(TAG, "uploadNewMessage: attempting to upload new message.");
+
+        String newMessageKey = myRef.child(mContext.getString(R.string.dbname_chats))
+                .child(chatID)
+                .push().getKey();
+
+        ChatMessage chatMessage = new ChatMessage();
+
+        chatMessage.setMessage_text(message);
+        chatMessage.setSender_user_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        chatMessage.setTimestamp(new Date().getTime());
+
+        //insert into database
+        myRef.child(mContext.getString(R.string.dbname_chats))
+                .child(chatID)
+                .child(newMessageKey).setValue(chatMessage);
+
+        //updates "last_timestamp" for each user
+        myRef.child(mContext.getString(R.string.dbname_user_chats))
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child(otherUserID)
+                .child(mContext.getString(R.string.field_last_timestamp))
+                .setValue(chatMessage.getTimestamp());
+
+        myRef.child(mContext.getString(R.string.dbname_user_chats))
+                .child(otherUserID)
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child(mContext.getString(R.string.field_last_timestamp))
+                .setValue(chatMessage.getTimestamp());
+    }
+
+    public void createNewChat(String otherUserID){
+        Log.d(TAG, "createNewChat: attempting to create new chat.");
+
+        String newChatKey = myRef.child(mContext.getString(R.string.dbname_chats))
+                .push().getKey();
+
+        UserChats userChats = new UserChats(newChatKey);
+
+        //insert into database for current user
+        myRef.child(mContext.getString(R.string.dbname_user_chats))
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child(otherUserID)
+                .setValue(userChats);
+
+        //insert into database for other user
+        myRef.child(mContext.getString(R.string.dbname_user_chats))
+                .child(otherUserID)
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .setValue(userChats);
+
+    }
+
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - -     - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     public void uploadNewPhoto(String photoType, final int count, final String imgUrl, Bitmap bm){
         Log.d(TAG, "uploadNewPhoto: attempting to upload new photo.");
@@ -316,7 +378,7 @@ public class FirebaseMethods {
      * @param email
      * @param password
      */
-    public void registerNewEmail(final String email, String password, final Context context){
+    public void registerNewEmail(final String email, String password){
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -328,7 +390,7 @@ public class FirebaseMethods {
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
 
-                            displayAuthErrorMessages(context, task);
+                            displayAuthErrorMessages(task);
                         }
                         //if successful
                         else if (task.isSuccessful()) {
@@ -345,39 +407,39 @@ public class FirebaseMethods {
 
     }
 
-    public void displayAuthErrorMessages(Context context, @NonNull Task<AuthResult> task){
+    public void displayAuthErrorMessages(@NonNull Task<AuthResult> task){
         try {
             throw task.getException();
         } catch(FirebaseAuthWeakPasswordException e) {
-            Toast.makeText(context, e.getReason(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, e.getReason(), Toast.LENGTH_SHORT).show();
             Log.d(TAG, "signInWithEmail:failure: " + e.getErrorCode());
             Log.d(TAG, "signInWithEmail:failure: " + e.getReason());
 
         } catch(FirebaseAuthActionCodeException e) {
-            Toast.makeText(context, e.getErrorCode(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, e.getErrorCode(), Toast.LENGTH_SHORT).show();
             Log.d(TAG, "signInWithEmail:failure: " + e.getErrorCode());
 
         } catch(FirebaseAuthEmailException e) {
-            Toast.makeText(context, e.getErrorCode(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, e.getErrorCode(), Toast.LENGTH_SHORT).show();
             Log.d(TAG, "signInWithEmail:failure: " + e.getErrorCode());
 
         } catch(FirebaseAuthInvalidCredentialsException e) {
-            Toast.makeText(context, e.getErrorCode(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, e.getErrorCode(), Toast.LENGTH_SHORT).show();
             Log.d(TAG, "signInWithEmail:failure: " + e.getErrorCode());
 
         } catch(FirebaseAuthInvalidUserException e) {
-            Toast.makeText(context, e.getErrorCode(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, e.getErrorCode(), Toast.LENGTH_SHORT).show();
             Log.d(TAG, "signInWithEmail:failure: " + e.getErrorCode());
 
         } catch(FirebaseAuthRecentLoginRequiredException e) {
-            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
             Log.d(TAG, "signInWithEmail:failure: " + e.getErrorCode());
 
         } catch(FirebaseAuthUserCollisionException e) {
-            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
             Log.d(TAG, "signInWithEmail:failure: " + e.getErrorCode());
         } catch(Exception e) {
-            Toast.makeText(context, context.getString(R.string.auth_failed), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, mContext.getString(R.string.auth_failed), Toast.LENGTH_SHORT).show();
             Log.d(TAG, "signInWithEmail:failure: " + e.getMessage());
 
         }
@@ -397,7 +459,7 @@ public class FirebaseMethods {
                             if(task.isSuccessful()) {
 
                             }else{
-                                Toast.makeText(mContext, "couldn't send verification email.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext, "Couldn't send verification email.", Toast.LENGTH_SHORT).show();
                             }
 
                         }

@@ -17,6 +17,8 @@
     <!--Firebase database fields-->
     <string name="dbname_users">users</string>
     <string name="dbname_user_photos">user_photos</string>
+    <string name="dbname_chats">chats</string>
+    <string name="dbname_user_chats">user_chats</string>
     <string name="field_email">email</string>
     <string name="field_name">name</string>
     <string name="field_age">age</string>
@@ -24,6 +26,7 @@
     <string name="field_description">description</string>
     <string name="field_pictures_number">pictures_number</string>
     <string name="field_profile_photo">profile_photo</string>
+    <string name="field_last_timestamp">last_timestamp</string>
 
 
     <!--Intent Extras-->
