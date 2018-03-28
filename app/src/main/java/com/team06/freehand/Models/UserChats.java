@@ -9,12 +9,14 @@ import java.util.Date;
 public class UserChats {
 
     private String chat_id;
+    private String other_user_id;
     private long last_timestamp;
 
     //CONSTRUCTORS
 
-    public UserChats(String chat_id) {
+    public UserChats(String chat_id, String other_user_id) {
         this.chat_id = chat_id;
+        this.other_user_id = other_user_id;
         this.last_timestamp = new Date().getTime();
     }
 
@@ -39,6 +41,13 @@ public class UserChats {
         this.last_timestamp = last_timestamp;
     }
 
+    public String getOther_user_id() {
+        return other_user_id;
+    }
+
+    public void setOther_user_id(String other_user_id) {
+        this.other_user_id = other_user_id;
+    }
 
     //TO STRING
 
@@ -46,6 +55,7 @@ public class UserChats {
     public String toString() {
         return "UserChats{" +
                 "chat_id='" + chat_id + '\'' +
+                ", other_user_id='" + other_user_id + '\'' +
                 ", last_timestamp=" + last_timestamp +
                 '}';
     }

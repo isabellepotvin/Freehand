@@ -35,17 +35,19 @@ public class ChatActivity extends AppCompatActivity {
 
         init();
 
+
+
     }
 
     private void init(){
-        Log.d(TAG, "init: inflating " + getString(R.string.profile_fragment));
+        Log.d(TAG, "init: inflating " + getString(R.string.chat_fragment));
 
         ChatFragment fragment = new ChatFragment();
         FragmentTransaction transaction = ChatActivity.this.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);
 
         //add to back stack so that the back button on the phone will work properly
-        transaction.addToBackStack(getString(R.string.profile_fragment));
+        transaction.addToBackStack(getString(R.string.chat_fragment));
         transaction.commit();
     }
 
