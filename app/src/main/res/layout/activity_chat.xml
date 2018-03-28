@@ -1,57 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/relLayout_Chat">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/container">
+        <!-- <Button
+            android:id="@+id/btn_newchat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="275dp"
+            android:text="New Chat"
+            android:layout_centerInParent="true" /> -->
 
-        </FrameLayout>
-
-    </RelativeLayout>
-
-</android.support.design.widget.CoordinatorLayout>
-
-<!--
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-        tools:context="com.team06.freehand.Chat.ChatActivity">
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        Top title and list of chats
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="54dp">
+            android:layout_height="match_parent"
+            android:background="@color/white">
 
-            <include layout="@layout/layout_centre_chat"/>
+            <!-- ******************************* Top Title ******************************* -->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/relLayout1">
+
+                <include layout="@layout/snippet_top_chat"/>
+
+            </RelativeLayout>
+
+
+
+            <!-- ******************************* Chats ******************************* -->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relLayout1"
+                android:id="@+id/relLayout2">
+
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/lvChats">
+
+                </ListView>
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
 
-        bottom navigation
-        <include layout="@layout/layout_bottom_navigation_view"/>
+        <include layout="@layout/layout_bottom_navigation_view" />
 
     </RelativeLayout>
 
-
-
 </android.support.design.widget.CoordinatorLayout>
--->

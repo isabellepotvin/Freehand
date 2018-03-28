@@ -97,7 +97,7 @@ public class ChatFragment extends Fragment {
         mName = (TextView) view.findViewById(R.id.person_name);
 
         mViewPager = (ViewPager) view.findViewById(R.id.container);
-        mRelativeLayout = (RelativeLayout) view.findViewById(R.id.relLayout);
+        //mRelativeLayout = (RelativeLayout) view.findViewById(R.id.relLayout);
 
 
 
@@ -180,28 +180,6 @@ public class ChatFragment extends Fragment {
 
                 ArrayAdapter adapter = new ArrayAdapter(mContext, R.layout.snippet_chatlist_rowview, R.id.person_name, userNames);
                 mListView.setAdapter(adapter);
-
-                mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                        Log.d(TAG, "onItemClick: selected an item: " + users.get(position));
-
-                        Log.d(TAG, "onItemClick: inflating " + getString(R.string.private_chat_fragment));
-
-                        PrivateChatFragment fragment = new PrivateChatFragment();
-                        FragmentTransaction transaction = ChatActivity.class.getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.container, fragment);
-
-                        //add to back stack so that the back button on the phone will work properly
-                        transaction.addToBackStack(getString(R.string.private_chat_fragment));
-                        transaction.commit();
-
-                        setImage(users.get(position), galleryImage, mAppend);
-
-
-                        mSelectedImage = imgURLs.get(position);
-                    }
-                });
 
             }
 

@@ -35,6 +35,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".Share.NextActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".Chat.PrivateChatActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

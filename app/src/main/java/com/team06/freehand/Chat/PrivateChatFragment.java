@@ -49,7 +49,8 @@ public class PrivateChatFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_private_chat, container,false);
+        View view = inflater.inflate(R.layout.activity_private_chat, container,false);
+        Log.d(TAG, "onCreateView: creating private chat view.");
 
         sendBtn = (FloatingActionButton) view.findViewById(R.id.send_btn);
         input = (EditText) view.findViewById(R.id.input_message);

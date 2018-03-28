@@ -118,7 +118,7 @@ public class FirebaseMethods {
         String newChatKey = myRef.child(mContext.getString(R.string.dbname_chats))
                 .push().getKey();
 
-        UserChats userChats = new UserChats(newChatKey);
+        UserChats userChats = new UserChats(newChatKey, otherUserID);
 
         //insert into database for current user
         myRef.child(mContext.getString(R.string.dbname_user_chats))
