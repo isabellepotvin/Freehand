@@ -7,12 +7,12 @@ package com.team06.freehand.Chat;
 public class UserChatInfo {
 
     private String name;
-    private String profile_photo;
+    private String imgUrl;
 
 
-    public UserChatInfo(String name, String profile_photo) {
+    public UserChatInfo(String name, String imgUrl) {
         this.name = name;
-        this.profile_photo = profile_photo;
+        this.imgUrl = imgUrl;
     }
 
     public UserChatInfo() {
@@ -27,20 +27,13 @@ public class UserChatInfo {
         this.name = name;
     }
 
-    public String getProfile_photo() {
-        return profile_photo;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
-    public void setProfile_photo(String profile_photo) {
-        this.profile_photo = profile_photo;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
 
-    @Override
-    public String toString() {
-        return "UserChatInfo{" +
-                "name='" + name + '\'' +
-                ", profile_photo='" + profile_photo + '\'' +
-                '}';
-    }
 }

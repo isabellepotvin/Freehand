@@ -39,6 +39,7 @@ import com.team06.freehand.Profile.SignOutFragment;
 import com.team06.freehand.R;
 import com.team06.freehand.Utils.BottomNavigationViewHelper;
 import com.team06.freehand.Utils.FirebaseMethods;
+import com.team06.freehand.Utils.PersonListAdapter;
 import com.team06.freehand.Utils.SectionsStatePagerAdapter;
 
 import java.util.ArrayList;
@@ -69,11 +70,6 @@ public class ChatActivity extends AppCompatActivity {
 
     //vars
     private String randomUserID = null;
-    BottomNavigationViewEx bottomNavigationView;
-
-    public SectionsStatePagerAdapter pagerAdapter;
-    private ViewPager mViewPager;
-    private RelativeLayout mRelativeLayout;
 
 
     @Override
@@ -88,14 +84,12 @@ public class ChatActivity extends AppCompatActivity {
         mPicture = (CircleImageView) findViewById(R.id.person_picture);
         mName = (TextView) findViewById(R.id.person_name);
 
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mRelativeLayout = (RelativeLayout) findViewById(R.id.relLayout_Chat);
-
 
         mFirebaseMethods = new FirebaseMethods(mContext);
 
-        setupListView();
+        //setupListView();
 
+        userObjects();
 
 
         setupBottomNavigationView();
@@ -106,6 +100,40 @@ public class ChatActivity extends AppCompatActivity {
 
 
 
+
+    }
+
+    private void userObjects(){
+
+        ArrayList<UserChatInfo> peopleList = new ArrayList<>();
+
+        peopleList.add(new UserChatInfo("Zachary", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+        peopleList.add(new UserChatInfo("Zachary2", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+        peopleList.add(new UserChatInfo("Zachary3", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+        peopleList.add(new UserChatInfo("Zachary4", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+        peopleList.add(new UserChatInfo("Zachary5", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+        peopleList.add(new UserChatInfo("Zachary6", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+        peopleList.add(new UserChatInfo("Zachary7", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+        peopleList.add(new UserChatInfo("Zachary8", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+        peopleList.add(new UserChatInfo("Zachary", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+        peopleList.add(new UserChatInfo("Zachary2", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+        peopleList.add(new UserChatInfo("Zachary3", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+        peopleList.add(new UserChatInfo("Zachary4", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+        peopleList.add(new UserChatInfo("Zachary5", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+        peopleList.add(new UserChatInfo("Zachary6", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+        peopleList.add(new UserChatInfo("Zachary7", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+        peopleList.add(new UserChatInfo("Zachary8", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+        peopleList.add(new UserChatInfo("Zachary", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+        peopleList.add(new UserChatInfo("Zachary2", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+        peopleList.add(new UserChatInfo("Zachary3", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+        peopleList.add(new UserChatInfo("Zachary4", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+        peopleList.add(new UserChatInfo("Zachary5", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+        peopleList.add(new UserChatInfo("Zachary6", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+        peopleList.add(new UserChatInfo("Zachary7", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+        peopleList.add(new UserChatInfo("Zachary8", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
+
+        PersonListAdapter adapter = new PersonListAdapter(this, R.layout.snippet_chatlist_rowview, peopleList);
+        mListView.setAdapter(adapter);
 
     }
 
