@@ -83,6 +83,7 @@ public class FirebaseMethods {
     public void uploadNewMessage(String chatID, String message, String otherUserID){
         Log.d(TAG, "uploadNewMessage: attempting to upload new message.");
 
+        String timestamp = getTimestamp();
         String newMessageKey = myRef.child(mContext.getString(R.string.dbname_chats))
                 .child(chatID)
                 .push().getKey();
@@ -91,7 +92,7 @@ public class FirebaseMethods {
 
         chatMessage.setMessage_text(message);
         chatMessage.setSender_user_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        chatMessage.setTimestamp(new Date().getTime());
+        chatMessage.setTimestamp(timestamp);
 
         //insert into database
         myRef.child(mContext.getString(R.string.dbname_chats))
@@ -103,13 +104,13 @@ public class FirebaseMethods {
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child(otherUserID)
                 .child(mContext.getString(R.string.field_last_timestamp))
-                .setValue(chatMessage.getTimestamp());
+                .setValue(timestamp);
 
         myRef.child(mContext.getString(R.string.dbname_user_chats))
                 .child(otherUserID)
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child(mContext.getString(R.string.field_last_timestamp))
-                .setValue(chatMessage.getTimestamp());
+                .setValue(timestamp);
     }
 
     public void createNewChat(String otherUserID){
@@ -118,19 +119,19 @@ public class FirebaseMethods {
         String newChatKey = myRef.child(mContext.getString(R.string.dbname_chats))
                 .push().getKey();
 
-        UserChats userChats = new UserChats(newChatKey, otherUserID);
+        String timestamp = getTimestamp();
 
         //insert into database for current user
         myRef.child(mContext.getString(R.string.dbname_user_chats))
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child(otherUserID)
-                .setValue(userChats);
+                .setValue(new UserChats(newChatKey, otherUserID, timestamp));
 
         //insert into database for other user
         myRef.child(mContext.getString(R.string.dbname_user_chats))
                 .child(otherUserID)
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .setValue(userChats);
+                .setValue(new UserChats(newChatKey, FirebaseAuth.getInstance().getCurrentUser().getUid(), timestamp));
 
     }
 
@@ -489,20 +490,20 @@ public class FirebaseMethods {
 
     /**
      * Retrieves the account settings for the user currently logged in
-     * Database: user_account_settings node
+     * Database: user node
      * @param dataSnapshot
      * @return
      */
-    public User getUserInfo(DataSnapshot dataSnapshot){
-        Log.d(TAG, "getUserAccountSettings: retrieving user account settings from firebase.");
+    public User getUserInfo(DataSnapshot dataSnapshot, String userID){
+        Log.d(TAG, "getUserInfo: retrieving user information from firebase.");
 
         User user = new User();
 
         for(DataSnapshot ds: dataSnapshot.getChildren()){
 
             // users node
-            if(ds.getKey().equals(mContext.getString(R.string.dbname_users))) { //user account settings node
-                Log.d(TAG, "getUserAccountSettings: datasnapshot: " + ds); //useful for debugging
+            if(ds.getKey().equals(mContext.getString(R.string.dbname_users))) { //user node
+                Log.d(TAG, "getUserInfo: datasnapshot: " + ds); //useful for debugging
 
                 user.setUser_id(
                         ds.child(userID)

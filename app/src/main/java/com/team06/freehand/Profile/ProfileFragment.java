@@ -253,7 +253,7 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 //retrieve user information from database
-                setProfileWidgets(mFirebaseMethods.getUserInfo(dataSnapshot));
+                setProfileWidgets(mFirebaseMethods.getUserInfo(dataSnapshot, mAuth.getCurrentUser().getUid()));
 
                 //retrieve images for the user in question
             }

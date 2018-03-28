@@ -48,8 +48,8 @@ public class GridImageAdapter extends ArrayAdapter<String>{
     }
 
 
-    private static class ViewHolder<T>{
-        T image;
+    private static class ViewHolder<SquareImageView>{
+        SquareImageView image;
         ProgressBar mProgressBar;
     }
 

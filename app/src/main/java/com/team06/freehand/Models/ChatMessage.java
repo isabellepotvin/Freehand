@@ -11,12 +11,13 @@ public class ChatMessage {
     private String message_text;
     private String sender_user_id;
     private String receiver_user_id;
-    private long timestamp;
+    private String timestamp;
 
 
     //CONSTRUCTORS
 
-    public ChatMessage(String message_text, String sender_user_id, String receiver_user_id, long timestamp) {
+
+    public ChatMessage(String message_text, String sender_user_id, String receiver_user_id, String timestamp) {
         this.message_text = message_text;
         this.sender_user_id = sender_user_id;
         this.receiver_user_id = receiver_user_id;
@@ -54,14 +55,13 @@ public class ChatMessage {
         this.receiver_user_id = receiver_user_id;
     }
 
-    public long getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
-
 
     //TO STRING
 

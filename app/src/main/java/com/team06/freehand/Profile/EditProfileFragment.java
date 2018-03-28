@@ -302,7 +302,7 @@ public class EditProfileFragment extends Fragment implements ConfirmPasswordDial
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 //retrieve user information from database
-                setProfileWidgets(mFirebaseMethods.getUserInfo(dataSnapshot));
+                setProfileWidgets(mFirebaseMethods.getUserInfo(dataSnapshot, mAuth.getCurrentUser().getUid()));
 
                 //retrieve images for the user in question
             }

@@ -8,11 +8,13 @@ public class UserChatInfo {
 
     private String name;
     private String imgUrl;
+    private String last_timestamp;
 
 
-    public UserChatInfo(String name, String imgUrl) {
+    public UserChatInfo(String name, String imgUrl, String last_timestamp) {
         this.name = name;
         this.imgUrl = imgUrl;
+        this.last_timestamp = last_timestamp;
     }
 
     public UserChatInfo() {
@@ -35,5 +37,11 @@ public class UserChatInfo {
         this.imgUrl = imgUrl;
     }
 
+    public String getLast_timestamp() {
+        return last_timestamp;
+    }
 
+    public void setLast_timestamp(String last_timestamp) {
+        this.last_timestamp = last_timestamp;
+    }
 }

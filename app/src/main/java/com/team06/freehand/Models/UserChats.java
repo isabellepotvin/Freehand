@@ -10,14 +10,14 @@ public class UserChats {
 
     private String chat_id;
     private String other_user_id;
-    private long last_timestamp;
+    private String last_timestamp;
 
     //CONSTRUCTORS
 
-    public UserChats(String chat_id, String other_user_id) {
+    public UserChats(String chat_id, String other_user_id, String last_timestamp) {
         this.chat_id = chat_id;
         this.other_user_id = other_user_id;
-        this.last_timestamp = new Date().getTime();
+        this.last_timestamp = last_timestamp;
     }
 
     public UserChats() {
@@ -33,11 +33,11 @@ public class UserChats {
         this.chat_id = chat_id;
     }
 
-    public long getLast_timestamp() {
+    public String getLast_timestamp() {
         return last_timestamp;
     }
 
-    public void setLast_timestamp(long last_timestamp) {
+    public void setLast_timestamp(String last_timestamp) {
         this.last_timestamp = last_timestamp;
     }
 

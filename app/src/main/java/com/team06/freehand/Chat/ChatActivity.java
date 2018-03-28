@@ -4,8 +4,6 @@ package com.team06.freehand.Chat;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseListAdapter;
@@ -29,18 +26,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
-import com.team06.freehand.Models.ChatMessage;
+import com.team06.freehand.Models.Photo;
+import com.team06.freehand.Models.User;
 import com.team06.freehand.Models.UserChats;
-import com.team06.freehand.Profile.AccountSettingsActivity;
-import com.team06.freehand.Profile.EditProfileFragment;
-import com.team06.freehand.Profile.ProfileActivity;
-import com.team06.freehand.Profile.ProfileFragment;
-import com.team06.freehand.Profile.SignOutFragment;
 import com.team06.freehand.R;
 import com.team06.freehand.Utils.BottomNavigationViewHelper;
 import com.team06.freehand.Utils.FirebaseMethods;
-import com.team06.freehand.Utils.PersonListAdapter;
-import com.team06.freehand.Utils.SectionsStatePagerAdapter;
+import com.team06.freehand.Utils.ChatListAdapter;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -89,11 +81,19 @@ public class ChatActivity extends AppCompatActivity {
 
         //setupListView();
 
-        userObjects();
-
-
         setupBottomNavigationView();
         setupFirebaseAuth();
+
+        newChatBtn = (Button) findViewById(R.id.btn_newchat);
+
+        newChatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                randomUser();
+            }
+        });
+
+        userObjects();
 
         Log.d(TAG, "onCreateView: Database Reference: " + myRef);
         Log.d(TAG, "onCreateView: Database Reference: " + myRef.child(getString(R.string.dbname_user_chats)));
@@ -105,43 +105,9 @@ public class ChatActivity extends AppCompatActivity {
 
     private void userObjects(){
 
-        ArrayList<UserChatInfo> peopleList = new ArrayList<>();
+        Log.d(TAG, "userObjects: settings up list view.");
 
-        peopleList.add(new UserChatInfo("Zachary", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-        peopleList.add(new UserChatInfo("Zachary2", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-        peopleList.add(new UserChatInfo("Zachary3", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-        peopleList.add(new UserChatInfo("Zachary4", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-        peopleList.add(new UserChatInfo("Zachary5", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-        peopleList.add(new UserChatInfo("Zachary6", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-        peopleList.add(new UserChatInfo("Zachary7", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-        peopleList.add(new UserChatInfo("Zachary8", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-        peopleList.add(new UserChatInfo("Zachary", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-        peopleList.add(new UserChatInfo("Zachary2", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-        peopleList.add(new UserChatInfo("Zachary3", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-        peopleList.add(new UserChatInfo("Zachary4", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-        peopleList.add(new UserChatInfo("Zachary5", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-        peopleList.add(new UserChatInfo("Zachary6", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-        peopleList.add(new UserChatInfo("Zachary7", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-        peopleList.add(new UserChatInfo("Zachary8", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-        peopleList.add(new UserChatInfo("Zachary", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-        peopleList.add(new UserChatInfo("Zachary2", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-        peopleList.add(new UserChatInfo("Zachary3", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-        peopleList.add(new UserChatInfo("Zachary4", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-        peopleList.add(new UserChatInfo("Zachary5", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-        peopleList.add(new UserChatInfo("Zachary6", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-        peopleList.add(new UserChatInfo("Zachary7", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-        peopleList.add(new UserChatInfo("Zachary8", "https://www.pentel.com.au/images/manga12.jpg?crc=3932521715"));
-
-        PersonListAdapter adapter = new PersonListAdapter(this, R.layout.snippet_chatlist_rowview, peopleList);
-        mListView.setAdapter(adapter);
-
-    }
-
-
-    private void setupListView(){
-        Log.d(TAG, "setupGridView: Setting up image grid.");
-
-        final ArrayList<UserChats> users = new ArrayList<>();
+        final ArrayList<UserChats> userChats = new ArrayList<>();
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         Query query = reference
@@ -151,24 +117,54 @@ public class ChatActivity extends AppCompatActivity {
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+                //gets the chat information
                 for( DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
-                    users.add(singleSnapshot.getValue(UserChats.class));
+                    userChats.add(singleSnapshot.getValue(UserChats.class));
                 }
 
-                ArrayList<String> userNames = new ArrayList<String>();
+                //creates an ArrayList of Users
+                final ArrayList<UserChatInfo> chatList = new ArrayList<>();
 
-                //add images to imgUrls array
-                for(int i = 0; i < users.size(); i++){
-                    userNames.add(users.get(i).getChat_id());
-                }
+                //allows us to read from the database
+                myRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        //adds users to the array list
+                        for(int i = 0; i < userChats.size(); i++){
 
-                ArrayAdapter adapter = new ArrayAdapter(mContext, R.layout.snippet_chatlist_rowview, R.id.person_name, userNames);
+                            Log.d(TAG, "onDataChange: user ID: " + userChats.get(i).getOther_user_id());
+
+                            User user = mFirebaseMethods.getUserInfo(dataSnapshot, userChats.get(i).getOther_user_id()); //gets all user information
+
+                            Log.d(TAG, "onDataChange: user: " + user.toString());
+
+                            //adds user's name and profile photo to the chat list array
+                            chatList.add(new UserChatInfo(user.getName(),
+                                    user.getProfile_photo(), userChats.get(i).getLast_timestamp()));
+
+                            Log.d(TAG, "onDataChange: chatList: " + chatList.get(i).getImgUrl());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+
+
+                //populates list view
+                ChatListAdapter adapter = new ChatListAdapter(mContext, R.layout.snippet_chatlist_rowview, chatList);
                 mListView.setAdapter(adapter);
 
+
+                //when a chat is clicked in the list
                 mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                        Log.d(TAG, "onItemClick: selected an item: " + users.get(position));
+                        Log.d(TAG, "onItemClick: selected an item: " + chatList.get(position));
 
                         Log.d(TAG, "onClick: navigation to private chat.");
                         Intent intent = new Intent(mContext, PrivateChatActivity.class);
@@ -183,7 +179,59 @@ public class ChatActivity extends AppCompatActivity {
                 Log.d(TAG, "onCancelled: query cancelled.");
             }
         });
+
+
     }
+
+
+//    private void setupListView(){
+//        Log.d(TAG, "setupGridView: Setting up image grid.");
+//
+//        final ArrayList<UserChats> users = new ArrayList<>();
+//
+//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+//        Query query = reference
+//                .child(getString(R.string.dbname_user_chats))
+//                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//
+//        query.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for( DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
+//                    users.add(singleSnapshot.getValue(UserChats.class));
+//                }
+//
+//                ArrayList<User> users = new ArrayList<String>();
+//
+//                userObjects(mFirebaseMethods.getUserInfo(dataSnapshot, mAuth.getCurrentUser().getUid()));
+//
+//                //add images to imgUrls array
+//                for(int i = 0; i < users.size(); i++){
+//                    userNames.add(users.get(i).getChat_id());
+//                }
+//
+//                ArrayAdapter adapter = new ArrayAdapter(mContext, R.layout.snippet_chatlist_rowview, R.id.person_name, userNames);
+//                mListView.setAdapter(adapter);
+//
+//                mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+//                        Log.d(TAG, "onItemClick: selected an item: " + users.get(position));
+//
+//                        Log.d(TAG, "onClick: navigation to private chat.");
+//                        Intent intent = new Intent(mContext, PrivateChatActivity.class);
+//                        startActivity(intent);
+//                    }
+//                });
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Log.d(TAG, "onCancelled: query cancelled.");
+//            }
+//        });
+//    }
 
     private void randomUser(){
 
@@ -279,6 +327,8 @@ public class ChatActivity extends AppCompatActivity {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+
 
             }
 
