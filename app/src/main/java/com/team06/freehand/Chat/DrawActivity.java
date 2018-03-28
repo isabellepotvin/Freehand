@@ -1,20 +1,11 @@
 package com.team06.freehand.Chat;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,19 +13,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.team06.freehand.Models.ChatMessage;
 import com.team06.freehand.R;
 import com.team06.freehand.Utils.FirebaseMethods;
 
 /**
- * Created by isabellepotvin on 2018-03-27.
+ * Created by isabellepotvin on 2018-03-28.
  */
 
-public class PrivateChatActivity extends AppCompatActivity {
+public class DrawActivity extends AppCompatActivity {
 
-    private static final String TAG = "PrivateChatActivity";
+    private static final String TAG = "DrawActivity";
     private static final int ACTIVITY_NUM = 1;
-    private Context mContext = PrivateChatActivity.this;
+    private Context mContext = DrawActivity.this;
 
     //firebase
     private FirebaseAuth mAuth;
@@ -43,65 +33,17 @@ public class PrivateChatActivity extends AppCompatActivity {
     private DatabaseReference myRef;
     private FirebaseMethods mFirebaseMethods;
 
-    //widgets
-    private ImageView backArrow;
-    private RelativeLayout drawingSpace;
-    private TextView tvName;
-
-    //vars
-    String chatID;
-    String personName;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_private_chat);
+        setContentView(R.layout.activity_draw);
 
         setupFirebaseAuth();
-        getIntentExtras();
-
-        //name
-        tvName = (TextView) findViewById(R.id.person_name);
-        tvName.setText(personName);
-
-
-        //drawing space button
-        drawingSpace = (RelativeLayout) findViewById(R.id.btn_drawingSpace);
-        drawingSpace.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: navigation to drawing space.");
-                Intent intent = new Intent(mContext, DrawActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-            }
-        });
-
-
-        //back arrow for navigating back to "ChatActivity"
-        backArrow = (ImageView) findViewById(R.id.backArrow);
-        backArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: navigating back to ProfileActivity");
-                PrivateChatActivity.this.finish();
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-            }
-        });
-
 
 
     }
 
-    private void getIntentExtras (){
-        Log.d(TAG, "getIntentExtras: getting extras");
-        Bundle extras = getIntent().getExtras();
-        chatID = extras.getString(getString(R.string.chat_id));
-        personName = extras.getString(getString(R.string.person_name));
-        Log.d(TAG, "getIntentExtras: chatID: " + chatID);
-        Log.d(TAG, "getIntentExtras: personName: " + personName);
-    }
+
 
 
 
@@ -167,6 +109,5 @@ public class PrivateChatActivity extends AppCompatActivity {
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
-
 
 }

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,7 +43,7 @@ public class PrivateChatFragment extends Fragment{
     private FirebaseListAdapter<ChatMessage> adapter;
 
     //widgets
-    FloatingActionButton sendBtn;
+    RelativeLayout drawingSpace;
     EditText input;
 
 
@@ -52,11 +53,9 @@ public class PrivateChatFragment extends Fragment{
         View view = inflater.inflate(R.layout.activity_private_chat, container,false);
         Log.d(TAG, "onCreateView: creating private chat view.");
 
-        sendBtn = (FloatingActionButton) view.findViewById(R.id.send_btn);
-        input = (EditText) view.findViewById(R.id.input_message);
+        drawingSpace = (RelativeLayout) view.findViewById(R.id.btn_drawingSpace);
 
-
-        sendBtn.setOnClickListener(new View.OnClickListener() {
+        drawingSpace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -66,6 +65,9 @@ public class PrivateChatFragment extends Fragment{
 
         return view;
     }
+
+
+
 
 
 

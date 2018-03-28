@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<merge
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -12,36 +12,43 @@
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/profileToolbar">
+            android:id="@+id/profileToolbar"
+            android:contentInsetLeft="0dp"
+            android:contentInsetStart="0dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            android:contentInsetRight="0dp"
+            android:contentInsetEnd="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetEnd="0dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
+                android:paddingRight="5dp"
+                android:paddingEnd="5dp"
+                >
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginRight="15dp"
                     android:layout_centerVertical="true"
                     android:id="@+id/backArrow"
                     android:src="@drawable/ic_backarrow"
                     />
 
                 <TextView
-                    android:layout_toRightOf="@+id/backArrow"
-                    android:layout_toEndOf="@+id/backArrow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="Name"
                     android:textSize="20sp"
-                    android:textColor="@color/black"
-                    android:id="@+id/name"
+                    android:textColor="@color/dark_grey"
+                    android:id="@+id/person_name"
+                    android:layout_centerInParent="true"
                     />
-
 
             </RelativeLayout>
 

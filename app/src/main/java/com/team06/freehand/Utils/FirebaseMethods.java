@@ -80,7 +80,7 @@ public class FirebaseMethods {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - Chat Related Methods - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    public void uploadNewMessage(String chatID, String message, String otherUserID){
+    public void uploadNewMessage(String chatID, String imgPath, String otherUserID){
         Log.d(TAG, "uploadNewMessage: attempting to upload new message.");
 
         String timestamp = getTimestamp();
@@ -90,7 +90,7 @@ public class FirebaseMethods {
 
         ChatMessage chatMessage = new ChatMessage();
 
-        chatMessage.setMessage_text(message);
+        chatMessage.setImage_path(imgPath);
         chatMessage.setSender_user_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
         chatMessage.setTimestamp(timestamp);
 

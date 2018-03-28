@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class ChatMessage {
 
-    private String message_text;
+    private String image_path;
     private String sender_user_id;
     private String receiver_user_id;
     private String timestamp;
@@ -16,9 +16,8 @@ public class ChatMessage {
 
     //CONSTRUCTORS
 
-
-    public ChatMessage(String message_text, String sender_user_id, String receiver_user_id, String timestamp) {
-        this.message_text = message_text;
+    public ChatMessage(String image_path, String sender_user_id, String receiver_user_id, String timestamp) {
+        this.image_path = image_path;
         this.sender_user_id = sender_user_id;
         this.receiver_user_id = receiver_user_id;
         this.timestamp = timestamp;
@@ -31,12 +30,12 @@ public class ChatMessage {
 
     //GETTERS AND SETTERS
 
-    public String getMessage_text() {
-        return message_text;
+    public String getImage_path() {
+        return image_path;
     }
 
-    public void setMessage_text(String message_text) {
-        this.message_text = message_text;
+    public void setImage_path(String image_path) {
+        this.image_path = image_path;
     }
 
     public String getSender_user_id() {
@@ -63,17 +62,19 @@ public class ChatMessage {
         this.timestamp = timestamp;
     }
 
+
+
     //TO STRING
 
     @Override
     public String toString() {
         return "ChatMessage{" +
-                "message_text='" + message_text + '\'' +
+                "image_path='" + image_path + '\'' +
                 ", sender_user_id='" + sender_user_id + '\'' +
                 ", receiver_user_id='" + receiver_user_id + '\'' +
-                ", timestamp=" + timestamp +
+                ", timestamp='" + timestamp + '\'' +
                 '}';
     }
 
-
 }
+
