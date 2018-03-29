@@ -9,8 +9,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.team06.freehand.R;
 import com.team06.freehand.Utils.Permissions;
@@ -73,7 +71,7 @@ public class ShareActivity extends AppCompatActivity{
         tabLayout.setupWithViewPager(mViewPager);
 
         tabLayout.getTabAt(0).setText(getString(R.string.string_gallery));
-        tabLayout.getTabAt(1).setText(getString(R.string.string_photo));
+        tabLayout.getTabAt(1).setText(getString(R.string.string_camera));
 
     }
     

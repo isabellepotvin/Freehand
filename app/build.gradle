@@ -54,6 +54,9 @@ dependencies {
 
     //firebase UI
     compile 'com.firebaseui:firebase-ui:3.2.2'
+
+    //bubble seekbar
+    compile 'com.xw.repo:bubbleseekbar:3.5-lite'
 }
 
 //firebase

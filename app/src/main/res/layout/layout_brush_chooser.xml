@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_margin="10dp"
+    android:padding="10dp"
+    >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/string_brush_size"
+            android:textSize="16sp"
+            android:textColor="@color/dark_grey"
+            android:layout_marginBottom="5dp"
+            />
+
+        <!--BRUSH SIZE SEEK BAR-->
+        <com.xw.repo.BubbleSeekBar
+            android:id="@+id/brush_size"
+            android:layout_marginBottom="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:bsb_bubble_color="@color/dark_grey"
+            app:bsb_bubble_text_color="@android:color/white"
+            app:bsb_max="150"
+            app:bsb_min="1"
+            app:bsb_track_color="@color/eden_green"
+            app:bsb_second_track_color="@color/eden_green"
+            app:bsb_section_count="1"
+            app:bsb_section_text_position="bottom_sides"
+            app:bsb_show_progress_in_float="false"
+            app:bsb_show_section_mark="true"
+            app:bsb_show_section_text="false"
+            app:bsb_show_thumb_text="false"
+            app:bsb_thumb_radius="15dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
+            android:paddingRight="10dp"
+            android:paddingEnd="10dp"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:textColor="@color/eden_green"
+                android:layout_margin="15dp"
+                android:text="@string/string_cancel"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:background="@drawable/button_rounded_rectangle_white"
+                android:id="@+id/dialogCancel"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:layout_margin="15dp"
+                android:text="@string/string_done"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:background="@drawable/button_rounded_rectangle_eden"
+                android:id="@+id/dialogConfirm"
+                />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
