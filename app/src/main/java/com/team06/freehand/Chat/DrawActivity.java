@@ -1,9 +1,8 @@
 package com.team06.freehand.Chat;
 
 import android.app.AlertDialog;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -12,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -23,7 +24,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.team06.freehand.Dialogs.BrushSettingsDialog;
-import com.team06.freehand.Profile.EditProfileFragment;
 import com.team06.freehand.R;
 import com.team06.freehand.Utils.FirebaseMethods;
 import com.xw.repo.BubbleSeekBar;
@@ -52,6 +52,9 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
         drawView.setBrushSize(brushSize);
         drawView.setLastBrushSize(brushSize);
     }
+    BrushSettingsDialog.brushSettingsListener mBrushSettingsListener;
+
+
 
 
     @Override
@@ -146,38 +149,24 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
         //BRUSH SETTINGS
         if(view.getId()==R.id.settings_btn){
 
-            BrushSettingsDialog dialog = new BrushSettingsDialog();
-            dialog.show(getSupportFragmentManager(), getString(R.string.brush_settings_dialog));
 
-//            BrushSettingsDialog dialog = new BrushSettingsDialog();
-//            dialog.show(getFragmentManager(), getString(R.string.confirm_password_dialog));
-//            dialog.setTargetFragment(EditProfileFragment.this, 1);
+            mBrushSettingsListener = new BrushSettingsDialog.brushSettingsListener() {
+                @Override
+                public void updatedBrushSettings(float brushSize) {
+                    drawView.setBrushSize(brushSize);
+                    drawView.setLastBrushSize(brushSize);
+                }
+            };
 
-//            final Dialog brushDialog = new Dialog(this);
-//
-//            brushDialog.setTitle("Brush settings:");
-//            brushDialog.setContentView(R.layout.layout_brush_chooser);
-//
-//            //Sets listener for bubble seek bar
-//            BubbleSeekBar brushSize = (BubbleSeekBar)brushDialog.findViewById(R.id.brush_size);
-//            brushSize.setProgress(drawView.getLastBrushSize());
-//            brushSize.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
-//                @Override
-//                public void onProgressChanged(int progress, float progressFloat) {
-//                    drawView.setBrushSize(progressFloat);
-//                    drawView.setLastBrushSize(progressFloat);
-//                   // brushDialog.dismiss();
-//                }
-//                @Override
-//                public void getProgressOnActionUp(int progress, float progressFloat) { }
-//                @Override
-//                public void getProgressOnFinally(int progress, float progressFloat) { }
-//            });
-//
-//            brushDialog.show();
+            BrushSettingsDialog dialog = new BrushSettingsDialog(DrawActivity.this, drawView.getLastBrushSize(), mBrushSettingsListener);
 
+            WindowManager.LayoutParams lWindowParams = new WindowManager.LayoutParams();
+            lWindowParams.width = WindowManager.LayoutParams.MATCH_PARENT; // this is where the magic happens
+            lWindowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-
+            //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+            dialog.getWindow().setAttributes(lWindowParams);
 
         }
 

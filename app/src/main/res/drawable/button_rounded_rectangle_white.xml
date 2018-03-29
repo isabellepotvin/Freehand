@@ -6,6 +6,9 @@
         <shape>
             <solid
                 android:color="@color/grey" />
+            <stroke
+                android:color="@color/eden_green"
+                android:width="2dp"/>
             <corners
                 android:radius="5dp"/>
         </shape>
