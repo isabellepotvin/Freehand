@@ -1,5 +1,6 @@
 package com.team06.freehand.Chat;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,9 +10,14 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
+
+import com.team06.freehand.R;
 
 
 /**
@@ -20,6 +26,9 @@ import android.view.View;
 
 public class DrawingView extends View {
 
+    private static final String TAG = "DrawingView";
+
+    Context mContext;
 
     //drawing path
     private Path drawPath;
@@ -32,6 +41,9 @@ public class DrawingView extends View {
     //canvas bitmap
     private Bitmap canvasBitmap;
 
+    //close button
+    private ImageButton closeBtn;
+
     private float brushSize, lastBrushSize;
     private boolean erase=false;
 
@@ -41,7 +53,15 @@ public class DrawingView extends View {
     public DrawingView(Context context, AttributeSet attrs){
         super(context, attrs);
         setupDrawing();
+
+        mContext = context;
+
+        Log.d(TAG, "DrawingView: creating drawing view");
+        Log.d(TAG, "DrawingView: closeBtn: " + closeBtn);
+        Log.d(TAG, "DrawingView: context: " + context + " , " + ((Activity) context));
     }
+
+
 
 
 
@@ -87,12 +107,14 @@ public class DrawingView extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 drawPath.moveTo(touchX, touchY);
+                closeBtn.setVisibility(GONE);
                 break;
             case MotionEvent.ACTION_MOVE:
                 drawPath.lineTo(touchX, touchY);
                 break;
             case MotionEvent.ACTION_UP:
                 drawCanvas.drawPath(drawPath, drawPaint);
+                closeBtn.setVisibility(VISIBLE);
                 drawPath.reset();
                 break;
             default:
@@ -143,6 +165,10 @@ public class DrawingView extends View {
     public void startNew(){
         drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
         invalidate();
+    }
+
+    public void setupCloseBtn(ImageButton button){
+        closeBtn = button;
     }
 
 }

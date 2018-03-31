@@ -49,8 +49,10 @@ public class PrivateChatActivity extends AppCompatActivity {
     private TextView tvName;
 
     //vars
-    String chatID;
-    String personName;
+    private String chatID;
+    private String personName;
+    private String otherUserID;
+
 
 
     @Override
@@ -73,6 +75,13 @@ public class PrivateChatActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d(TAG, "onClick: navigation to drawing space.");
                 Intent intent = new Intent(mContext, DrawActivity.class);
+
+                Bundle extras = new Bundle();
+
+                extras.putString(getString(R.string.chat_id), chatID);
+                extras.putString(getString(R.string.other_user_id), otherUserID);
+                intent.putExtras(extras);
+
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
@@ -99,8 +108,11 @@ public class PrivateChatActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         chatID = extras.getString(getString(R.string.chat_id));
         personName = extras.getString(getString(R.string.person_name));
+        otherUserID = extras.getString(getString(R.string.other_user_id));
+
         Log.d(TAG, "getIntentExtras: chatID: " + chatID);
         Log.d(TAG, "getIntentExtras: personName: " + personName);
+        Log.d(TAG, "getIntentExtras: personName: " + otherUserID);
     }
 
 
@@ -142,6 +154,9 @@ public class PrivateChatActivity extends AppCompatActivity {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+                //load chats
+
 
             }
 

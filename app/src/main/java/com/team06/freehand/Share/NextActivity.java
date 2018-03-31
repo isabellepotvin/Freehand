@@ -169,7 +169,7 @@ public class NextActivity extends AppCompatActivity {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                imageCount = mFirebaseMethods.getImageCount(dataSnapshot); //gets the image count
+                imageCount = mFirebaseMethods.getImageCount(dataSnapshot, null); //gets the image count
                 Log.d(TAG, "onDataChange: image count: " + imageCount);
             }
 

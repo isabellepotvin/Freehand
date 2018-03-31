@@ -1,5 +1,6 @@
 package com.team06.freehand.Utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -80,7 +81,60 @@ public class FirebaseMethods {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - Chat Related Methods - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    public void uploadNewMessage(String chatID, String imgPath, String otherUserID){
+    public void uploadNewMessage(Bitmap bm, final int count, final String chatID, final String otherUserID){
+
+        Log.d(TAG, "uploadNewMessage: uploading new message bitmap.");
+
+        FilePaths filePaths = new FilePaths();
+
+        String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        StorageReference storageReference = mStorageReference
+                .child(filePaths.FIREBASE_MESSAGE_STORAGE + "/" + chatID + "/" + (count + 1));
+
+        byte[] bytes = ImageManager.getBytesFromBitmap(bm, 100);
+
+        UploadTask uploadTask = null;
+        uploadTask = storageReference.putBytes(bytes);
+
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Uri firebaseUrl = taskSnapshot.getDownloadUrl();
+
+                Toast.makeText(mContext, "Drawing sent", Toast.LENGTH_SHORT).show();
+
+                //add the new drawing to 'chats' node
+                uploadNewMessageInfo(chatID, firebaseUrl.toString(), otherUserID);
+
+                //navigate the user back to the private chat
+                ((Activity)mContext).finish();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: Photo upload failed.");
+                Toast.makeText(mContext, "Sorry, we were unable to send your drawing", Toast.LENGTH_SHORT).show();
+
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                //double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+
+                //if(progress - 5 > mPhotoUploadProgress){
+                //    Toast.makeText(mContext, "Sending drawing: " + String.format("%.0f", progress) + "%", Toast.LENGTH_SHORT).show();
+                //    mPhotoUploadProgress = progress;
+                //}
+
+                //Log.d(TAG, "onProgress: upload progress: " + progress + "% done");
+            }
+        });
+
+    }
+
+    public void uploadNewMessageInfo(String chatID, String url, String otherUserID){
         Log.d(TAG, "uploadNewMessage: attempting to upload new message.");
 
         String timestamp = getTimestamp();
@@ -90,8 +144,9 @@ public class FirebaseMethods {
 
         ChatMessage chatMessage = new ChatMessage();
 
-        chatMessage.setImage_path(imgPath);
+        chatMessage.setImage_path(url);
         chatMessage.setSender_user_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        chatMessage.setReceiver_user_id(otherUserID);
         chatMessage.setTimestamp(timestamp);
 
         //insert into database
@@ -170,7 +225,7 @@ public class FirebaseMethods {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Uri firebaseUrl = taskSnapshot.getDownloadUrl();
 
-                    Toast.makeText(mContext, "photo upload success", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Photo upload success", Toast.LENGTH_SHORT).show();
 
                     //add the new photo to 'user_photos' node
                     addPhotoToDatabase(firebaseUrl.toString());
@@ -184,7 +239,7 @@ public class FirebaseMethods {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Log.d(TAG, "onFailure: Photo upload failed.");
-                    Toast.makeText(mContext, "Photo upload failed: ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Photo upload failed", Toast.LENGTH_SHORT).show();
 
 
                 }
@@ -194,14 +249,13 @@ public class FirebaseMethods {
                     double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
 
                     if(progress - 15 > mPhotoUploadProgress){
-                        Toast.makeText(mContext, "photo upload progress: " + String.format("%.0f", progress) + "%", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "Upload progress: " + String.format("%.0f", progress) + "%", Toast.LENGTH_SHORT).show();
                         mPhotoUploadProgress = progress;
                     }
 
                     Log.d(TAG, "onProgress: upload progress: " + progress + "% done");
                 }
             });
-
 
         }
 
@@ -300,13 +354,24 @@ public class FirebaseMethods {
         return sdf.format(new Date());
     }
 
-    public int getImageCount(DataSnapshot dataSnapshot){
+    public int getImageCount(DataSnapshot dataSnapshot, String chatID){
         int count = 0;
-        for(DataSnapshot ds: dataSnapshot
-                .child(mContext.getString(R.string.dbname_user_photos))
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .getChildren()){
-            count++;
+
+        if(chatID == null) {
+            for (DataSnapshot ds : dataSnapshot
+                    .child(mContext.getString(R.string.dbname_user_photos))
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .getChildren()) {
+                count++;
+            }
+        }
+        else {
+            for (DataSnapshot ds : dataSnapshot
+                    .child(mContext.getString(R.string.dbname_chats))
+                    .child(chatID)
+                    .getChildren()) {
+                count++;
+            }
         }
 
         return count;

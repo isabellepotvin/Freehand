@@ -39,6 +39,9 @@
     <string name="return_to_fragment">return_to_fragment</string>
     <string name="chat_id">chat_id</string>
     <string name="person_name">person_name</string>
+    <string name="other_user_id">other_user_id</string>
+
+
 
 
     <!--Activity Names-->

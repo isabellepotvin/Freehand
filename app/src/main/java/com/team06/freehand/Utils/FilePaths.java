@@ -17,6 +17,8 @@ public class FilePaths {
 
     public String FIREBASE_IMAGE_STORAGE = "photos/users/";
 
+    public String FIREBASE_MESSAGE_STORAGE = "chats/";
+
 
 
 

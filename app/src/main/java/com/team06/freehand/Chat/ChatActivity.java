@@ -146,6 +146,7 @@ public class ChatActivity extends AppCompatActivity {
 
                         extras.putString(getString(R.string.chat_id), userChats.get(position).getChat_id());
                         extras.putString(getString(R.string.person_name), chatList.get(position).getName());
+                        extras.putString(getString(R.string.other_user_id), userChats.get(position).getOther_user_id());
                         intent.putExtras(extras);
 
                         startActivity(intent);

@@ -1,8 +1,6 @@
 package com.team06.freehand.Chat;
 
 import android.app.AlertDialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -11,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -25,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.team06.freehand.Dialogs.BrushSettingsDialog;
 import com.team06.freehand.R;
+import com.team06.freehand.Share.NextActivity;
 import com.team06.freehand.Utils.FirebaseMethods;
 import com.xw.repo.BubbleSeekBar;
 
@@ -42,10 +40,15 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
     private DatabaseReference myRef;
     private FirebaseMethods mFirebaseMethods;
 
-
     //widgets
     private DrawingView drawView;
-    private ImageButton currPaint, drawBtn, eraseBtn, settingsBtn, newBtn, saveBtn;
+    private ImageButton currPaint, drawBtn, eraseBtn, settingsBtn, newBtn, saveBtn, closeBtn, sendBtn;
+
+    //vars
+    private int drawingCount = 0;
+    private String chatID;
+    private String otherUserID;
+
 
     @Override
     public void updatedBrushSettings(float brushSize) {
@@ -55,15 +58,16 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
     BrushSettingsDialog.brushSettingsListener mBrushSettingsListener;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_draw);
 
+        mFirebaseMethods = new FirebaseMethods(DrawActivity.this);
+
         setupFirebaseAuth();
+        getIntentExtras();
 
         drawView = (DrawingView) findViewById(R.id.drawing);
 
@@ -97,6 +101,15 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
         //save drawing button
         saveBtn = (ImageButton)findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(this);
+
+        //close button
+        closeBtn = (ImageButton) findViewById(R.id.close_btn);
+        closeBtn.setOnClickListener(this);
+        drawView.setupCloseBtn(closeBtn);
+
+        //send button
+        sendBtn = (ImageButton) findViewById(R.id.send_btn);
+        sendBtn.setOnClickListener(this);
 
 
         //brush colour
@@ -134,17 +147,13 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
         });
     }
 
-
     //creates dialog when user clicks brush, eraser, brush settings, save or new drawing buttons
     @Override
     public void onClick(View view){
 
-        //drawBtn.setBackgroundColor(0x000000);
-        //eraseBtn.setBackgroundColor(0x4CB8FB);
-        //settingsBtn.setBackgroundColor(0x4CB8FB);
-
         //ImageButton imgView = (ImageButton) view;
         //imgView.setImageDrawable(getResources().getDrawable(R.drawable.paint_pressed));
+
 
         //BRUSH SETTINGS
         if(view.getId()==R.id.settings_btn){
@@ -161,14 +170,14 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
             BrushSettingsDialog dialog = new BrushSettingsDialog(DrawActivity.this, drawView.getLastBrushSize(), mBrushSettingsListener);
 
             WindowManager.LayoutParams lWindowParams = new WindowManager.LayoutParams();
-            lWindowParams.width = WindowManager.LayoutParams.MATCH_PARENT; // this is where the magic happens
+            lWindowParams.width = WindowManager.LayoutParams.MATCH_PARENT;
             lWindowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-            //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.show();
             dialog.getWindow().setAttributes(lWindowParams);
 
         }
+
 
         //DRAW
         else if(view.getId()==R.id.draw_btn) {
@@ -186,8 +195,8 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
         else if(view.getId()==R.id.new_btn){
             //alerts user when they click new drawing button
             AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
-            newDialog.setTitle("New drawing");
-            newDialog.setMessage("Start new drawing (you will lose the current drawing)?");
+            newDialog.setTitle("New Drawing");
+            newDialog.setMessage("Start new drawing? You will lose the current drawing.");
             newDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog, int which){
                     drawView.startNew();
@@ -203,11 +212,10 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
         }
 
 
-
         //SAVE DRAWING
         else if(view.getId()==R.id.save_btn){
             AlertDialog.Builder saveDialog = new AlertDialog.Builder(this);
-            saveDialog.setTitle("Save drawing");
+            saveDialog.setTitle("Save Drawing");
             saveDialog.setMessage("Save drawing to device Gallery?");
             saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
 
@@ -217,6 +225,8 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
 
                     String imgSaved = MediaStore.Images.Media.insertImage( getContentResolver(), drawView.getDrawingCache(),
                             UUID.randomUUID().toString()+".png", "drawing");
+
+                    //Log.d(TAG, "onClick: img: " + drawView.getDrawingCache());
 
                     if(imgSaved!=null){
                         Toast savedToast = Toast.makeText(getApplicationContext(),
@@ -242,6 +252,48 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
         }
 
 
+        //CLOSE BUTTON
+        else if(view.getId() == R.id.close_btn){
+
+            //alerts user when they close the drawing space
+            AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
+            newDialog.setTitle("Exit");
+            newDialog.setMessage("Are you sure you want to close the drawing space? You will lose the current drawing.");
+            newDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                public void onClick(DialogInterface dialog, int which){
+                    finish();
+                    dialog.dismiss();
+                }
+            });
+            newDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                public void onClick(DialogInterface dialog, int which){
+                    dialog.cancel();
+                }
+            });
+            newDialog.show();
+        }
+
+
+        //SEND BUTTON
+        else if (view.getId() == R.id.send_btn){
+            drawView.setDrawingCacheEnabled(true);
+
+            Log.d(TAG, "onClick: sending drawing: bm: " + drawView.getDrawingCache());
+
+            mFirebaseMethods.uploadNewMessage(drawView.getDrawingCache(), drawingCount, chatID, otherUserID);
+        }
+
+
+    }
+
+    private void getIntentExtras (){
+        Log.d(TAG, "getIntentExtras: getting extras");
+        Bundle extras = getIntent().getExtras();
+        chatID = extras.getString(getString(R.string.chat_id));
+        otherUserID = extras.getString(getString(R.string.other_user_id));
+
+        Log.d(TAG, "getIntentExtras: chatID: " + chatID);
+        Log.d(TAG, "getIntentExtras: personName: " + otherUserID);
     }
 
 
@@ -282,7 +334,8 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
+                drawingCount = mFirebaseMethods.getImageCount(dataSnapshot, chatID); //gets the image count
+                Log.d(TAG, "onDataChange: image count: " + drawingCount);
             }
 
             @Override

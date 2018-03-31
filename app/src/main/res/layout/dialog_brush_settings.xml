@@ -7,15 +7,17 @@
     android:gravity="center"
     android:orientation="vertical"
     android:layout_margin="10dp"
-    android:padding="10dp"
     >
+
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center">
+        android:gravity="center"
+        android:padding="10dp">
 
+        <!--brush size text-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,7 +27,7 @@
             android:layout_marginBottom="5dp"
             />
 
-        <!--BRUSH SIZE SEEK BAR-->
+        <!--brush size seek bar-->
         <com.xw.repo.BubbleSeekBar
             android:id="@+id/brush_size"
             android:layout_marginBottom="30dp"
@@ -44,51 +46,44 @@
             app:bsb_show_thumb_text="false"
             app:bsb_thumb_radius="15dp"
             />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="10dp"
-            android:paddingStart="10dp"
-            android:paddingRight="10dp"
-            android:paddingEnd="10dp"
-            >
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:textSize="18sp"
-                android:textColor="@color/eden_green"
-                android:layout_margin="15dp"
-                android:text="@string/string_cancel"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:background="@drawable/button_rounded_rectangle_white"
-                android:id="@+id/dialogCancel"
-                />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:textSize="18sp"
-                android:textColor="@color/white"
-                android:layout_margin="15dp"
-                android:text="@string/string_done"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:background="@drawable/button_rounded_rectangle_eden"
-                android:id="@+id/dialogConfirm"
-                />
-
-        </LinearLayout>
-
-
-
     </LinearLayout>
 
+    <!-- Cancel and done buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <!--cancel-->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:textColor="@color/eden_green"
+            android:text="@string/string_cancel"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:background="@drawable/button_rectangle_white"
+            android:id="@+id/dialogCancel"
+            />
+
+        <!--done-->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:text="@string/string_done"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:background="@drawable/button_rectangle_eden"
+            android:id="@+id/dialogConfirm"
+            />
+
+    </LinearLayout>
 
 
 </LinearLayout>
