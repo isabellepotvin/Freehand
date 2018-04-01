@@ -4,20 +4,20 @@ package com.team06.freehand.Chat;
  * Created by isabellepotvin on 2018-03-27.
  */
 
-public class UserChatInfo {
+public class InfoChat {
 
     private String name;
     private String imgUrl;
     private String last_timestamp;
 
 
-    public UserChatInfo(String name, String imgUrl, String last_timestamp) {
+    public InfoChat(String name, String imgUrl, String last_timestamp) {
         this.name = name;
         this.imgUrl = imgUrl;
         this.last_timestamp = last_timestamp;
     }
 
-    public UserChatInfo() {
+    public InfoChat() {
     }
 
 

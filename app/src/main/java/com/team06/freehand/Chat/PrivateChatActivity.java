@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,10 +22,17 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.team06.freehand.Models.ChatMessage;
+import com.team06.freehand.Models.User;
+import com.team06.freehand.Models.UserChats;
 import com.team06.freehand.R;
+import com.team06.freehand.Utils.ChatListAdapter;
+import com.team06.freehand.Utils.DrawingListAdapter;
 import com.team06.freehand.Utils.FirebaseMethods;
+
+import java.util.ArrayList;
 
 /**
  * Created by isabellepotvin on 2018-03-27.
@@ -47,6 +55,7 @@ public class PrivateChatActivity extends AppCompatActivity {
     private ImageView backArrow;
     private RelativeLayout drawingSpace;
     private TextView tvName;
+    private ListView mListView;
 
     //vars
     private String chatID;
@@ -62,6 +71,9 @@ public class PrivateChatActivity extends AppCompatActivity {
 
         setupFirebaseAuth();
         getIntentExtras();
+
+        //list view
+        mListView = (ListView) findViewById(R.id.list_of_messages);
 
         //name
         tvName = (TextView) findViewById(R.id.person_name);
@@ -99,6 +111,42 @@ public class PrivateChatActivity extends AppCompatActivity {
             }
         });
 
+
+        setupListView();
+
+    }
+
+    private void setupListView(){
+
+        Log.d(TAG, "setupListView: settings up list view.");
+
+        final ArrayList<ChatMessage> chatDrawings = new ArrayList<>();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        Query query = reference
+                .child(getString(R.string.dbname_chats))
+                .child(chatID);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                //gets the chat information
+                for( DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
+                    chatDrawings.add(singleSnapshot.getValue(ChatMessage.class));
+                }
+
+                //populates list view
+                DrawingListAdapter adapter = new DrawingListAdapter(mContext, R.layout.snippet_messagelist_rowview_left, chatDrawings);
+                mListView.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d(TAG, "onCancelled: query cancelled.");
+            }
+        });
 
 
     }

@@ -11,11 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,9 +30,6 @@ import com.team06.freehand.Utils.FirebaseMethods;
 import com.team06.freehand.Utils.ChatListAdapter;
 
 import java.util.ArrayList;
-import java.util.Random;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -98,7 +92,7 @@ public class ChatActivity extends AppCompatActivity {
                 }
 
                 //creates an ArrayList of Users
-                final ArrayList<UserChatInfo> chatList = new ArrayList<>();
+                final ArrayList<InfoChat> chatList = new ArrayList<>();
 
                 //allows us to read from the database
                 myRef.addValueEventListener(new ValueEventListener() {
@@ -114,7 +108,7 @@ public class ChatActivity extends AppCompatActivity {
                             Log.d(TAG, "onDataChange: user: " + user.toString());
 
                             //adds user's name and profile photo to the chat list array
-                            chatList.add(new UserChatInfo(user.getName(),
+                            chatList.add(new InfoChat(user.getName(),
                                     user.getProfile_photo(), userChats.get(i).getLast_timestamp()));
 
                             Log.d(TAG, "onDataChange: chatList: " + chatList.get(i).getImgUrl());

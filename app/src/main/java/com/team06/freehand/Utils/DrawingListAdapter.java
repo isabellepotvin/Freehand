@@ -8,10 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.team06.freehand.Chat.InfoChat;
+import com.team06.freehand.Models.ChatMessage;
 import com.team06.freehand.R;
 
 import java.text.ParseException;
@@ -27,16 +29,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by isabellepotvin on 2018-03-27.
  */
 
-public class ChatListAdapter extends ArrayAdapter<InfoChat> {
+public class DrawingListAdapter extends ArrayAdapter<ChatMessage> {
 
-    private static final String TAG = "ChatListAdapter";
+    private static final String TAG = "DrawingListAdapter";
 
     private Context mContext;
     int mResource;
 
     static class ViewHolder {
-        TextView name;
-        CircleImageView photo;
+        ImageView drawing;
         TextView timestamp;
     }
 
@@ -46,7 +47,7 @@ public class ChatListAdapter extends ArrayAdapter<InfoChat> {
      * @param resource
      * @param objects
      */
-    public ChatListAdapter(@NonNull Context context, int resource, ArrayList<InfoChat> objects) {
+    public DrawingListAdapter(@NonNull Context context, int resource, ArrayList<ChatMessage> objects) {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
@@ -57,12 +58,13 @@ public class ChatListAdapter extends ArrayAdapter<InfoChat> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         //get information
-        String name = getItem(position).getName();
-        String photo = getItem(position).getImgUrl();
-        String timestamp = getItem(position).getLast_timestamp();
+        String image_path = getItem(position).getImage_path();
+        String timestamp = getItem(position).getTimestamp();
+        String sender_user_id = getItem(position).getSender_user_id();
+        String receiver_user_id = getItem(position).getReceiver_user_id();
 
         //create object with the info
-        InfoChat userChatInfo= new InfoChat(name, photo, timestamp);
+        ChatMessage chatMessageInfo = new ChatMessage(image_path, sender_user_id, receiver_user_id, timestamp);
 
         //Viewholder object
         ViewHolder holder = new ViewHolder();
@@ -70,8 +72,7 @@ public class ChatListAdapter extends ArrayAdapter<InfoChat> {
         if(convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(mContext);
             convertView = inflater.inflate(mResource, parent, false);
-            holder.name = (TextView) convertView.findViewById(R.id.person_name);
-            holder.photo = (CircleImageView) convertView.findViewById(R.id.person_picture);
+            holder.drawing = (ImageView) convertView.findViewById(R.id.drawing);
             holder.timestamp = (TextView) convertView.findViewById(R.id.timestamp);
 
             convertView.setTag(holder);
@@ -81,10 +82,7 @@ public class ChatListAdapter extends ArrayAdapter<InfoChat> {
 
         //sets image
         ImageLoader imageLoader = ImageLoader.getInstance();
-        UniversalImageLoader.setImage(photo, holder.photo, null, "");
-
-        //sets name
-        holder.name.setText(name);
+        UniversalImageLoader.setImage(image_path, holder.drawing, null, "");
 
         //creates simple date formats
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.CANADA);
