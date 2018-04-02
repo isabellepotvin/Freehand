@@ -2,6 +2,7 @@ package com.team06.freehand.Chat;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -69,15 +70,10 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
         setupFirebaseAuth();
         getIntentExtras();
 
-        drawView = (DrawingView) findViewById(R.id.drawing);
+        drawView = (DrawingView) findViewById(R.id.draw_view);
+        Log.d(TAG, "onCreate: draw view: " + drawView);
+        drawView.setDrawingCacheEnabled(true);
 
-
-        //LinearLayout paintLayout = (LinearLayout) findViewById(R.id.paint_colors);
-
-
-        //paint colour button (selects the first paint colour)
-        //currPaint = (ImageButton)paintLayout.getChildAt(0);
-        //currPaint.setImageDrawable(getResources().getDrawable(R.drawable.paint_pressed));
 
         //sets initial brush size
         drawView.setBrushSize(20);
@@ -85,6 +81,7 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
         //draw button
         drawBtn = (ImageButton)findViewById(R.id.draw_btn);
         drawBtn.setOnClickListener(this);
+        drawBtn.setSelected(true);
 
         //erase button
         eraseBtn = (ImageButton)findViewById(R.id.erase_btn);
@@ -120,7 +117,7 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
             @Override
             public void onProgressChanged(int progress, float progressFloat) {
 
-                drawView.setErase(false);
+                //drawView.setErase(false);
 
                 //brush colour
 
@@ -154,7 +151,6 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
         //ImageButton imgView = (ImageButton) view;
         //imgView.setImageDrawable(getResources().getDrawable(R.drawable.paint_pressed));
 
-
         //BRUSH SETTINGS
         if(view.getId()==R.id.settings_btn){
 
@@ -172,6 +168,7 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
             WindowManager.LayoutParams lWindowParams = new WindowManager.LayoutParams();
             lWindowParams.width = WindowManager.LayoutParams.MATCH_PARENT;
             lWindowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
             dialog.show();
             dialog.getWindow().setAttributes(lWindowParams);
@@ -182,12 +179,16 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
         //DRAW
         else if(view.getId()==R.id.draw_btn) {
             drawView.setErase(false);
+            drawBtn.setSelected(true);
+            eraseBtn.setSelected(false);
         }
 
 
         //ERASER
         else if(view.getId()==R.id.erase_btn) {
             drawView.setErase(true);
+            eraseBtn.setSelected(true);
+            drawBtn.setSelected(false);
         }
 
 
@@ -276,11 +277,15 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
 
         //SEND BUTTON
         else if (view.getId() == R.id.send_btn){
-            drawView.setDrawingCacheEnabled(true);
 
             Log.d(TAG, "onClick: sending drawing: bm: " + drawView.getDrawingCache());
 
-            mFirebaseMethods.uploadNewMessage(drawView.getDrawingCache(), drawingCount, chatID, otherUserID);
+            //if(drawView.getDrawingCache() != null) {
+                mFirebaseMethods.uploadNewMessage(drawView.getDrawingCache(), drawingCount, chatID, otherUserID);
+           // }
+            //else{
+              //  Toast.makeText(this, "You did not draw anything", Toast.LENGTH_SHORT).show();
+            //}
         }
 
 

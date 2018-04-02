@@ -2,6 +2,7 @@ package com.team06.freehand.Dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -51,15 +52,18 @@ public class BrushSettingsDialog extends Dialog {
 
         BubbleSeekBar brushSize = (BubbleSeekBar) findViewById(R.id.brush_size);
         brushSize.setProgress(lastBrushSize);
+        newBrushSize = lastBrushSize;
         brushSize.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
             @Override
             public void onProgressChanged(int progress, float progressFloat) {
+            }
+            @Override
+            public void getProgressOnActionUp(int progress, float progressFloat) {
                 newBrushSize = progressFloat;
             }
             @Override
-            public void getProgressOnActionUp(int progress, float progressFloat) { }
-            @Override
-            public void getProgressOnFinally(int progress, float progressFloat) { }
+            public void getProgressOnFinally(int progress, float progressFloat) {
+            }
         });
 
         //CONFIRM BUTTON

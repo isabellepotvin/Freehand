@@ -38,6 +38,7 @@ import com.team06.freehand.Models.UserChats;
 import com.team06.freehand.Profile.AccountSettingsActivity;
 import com.team06.freehand.Profile.ProfileActivity;
 import com.team06.freehand.R;
+import com.team06.freehand.Share.NextActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -85,9 +86,9 @@ public class FirebaseMethods {
 
         Log.d(TAG, "uploadNewMessage: uploading new message bitmap.");
 
-        FilePaths filePaths = new FilePaths();
+        Toast.makeText(mContext, "Sending...", Toast.LENGTH_SHORT).show();
 
-        String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FilePaths filePaths = new FilePaths();
 
         StorageReference storageReference = mStorageReference
                 .child(filePaths.FIREBASE_MESSAGE_STORAGE + "/" + chatID + "/" + (count + 1));

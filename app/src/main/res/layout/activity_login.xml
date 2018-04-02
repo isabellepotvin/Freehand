@@ -2,74 +2,129 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_green"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="55dp"
+        android:paddingTop="20dp"
         android:paddingLeft="25dp"
         android:paddingRight="25dp"
         >
 
         <!--freehand logo-->
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="75dp"
-            android:src="@drawable/ic_question_mark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_logo_with_name"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="40dp"
+            android:adjustViewBounds="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginEnd="40dp"
             />
 
-        <!--input email-->
-        <android.support.design.widget.TextInputLayout
+        <!--email-->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
-            <EditText
+            android:layout_marginBottom="8dp"
+            android:paddingRight="10dp"
+            android:paddingEnd="10dp"
+            android:background="@drawable/bg_rectangle_white_rounded"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_person_eden"
+                android:adjustViewBounds="true"
+                android:padding="5dp"
+                />
+
+            <!--input email-->
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:hint="Email"
-                android:id="@+id/input_email"/>
-        </android.support.design.widget.TextInputLayout>
+                android:focusableInTouchMode="true">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:hint="@string/string_email"
+                    android:id="@+id/input_email"
+                    android:textSize="18sp"/>
+            </android.support.design.widget.TextInputLayout>
 
-        <!--input password-->
-        <android.support.design.widget.TextInputLayout
+        </LinearLayout>
+
+
+        <!--password-->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
-            <EditText
+            android:layout_marginBottom="8dp"
+            android:paddingRight="10dp"
+            android:paddingEnd="10dp"
+            android:background="@drawable/bg_rectangle_white_rounded">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_lock_eden"
+                android:adjustViewBounds="true"
+                android:padding="3dp"
+                />
+
+            <!--input password-->
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:hint="Password"
-                android:id="@+id/input_password"/>
-        </android.support.design.widget.TextInputLayout>
+                android:focusableInTouchMode="true">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:hint="@string/string_password"
+                    android:id="@+id/input_password"
+                    android:textSize="18sp"/>
+            </android.support.design.widget.TextInputLayout>
 
-        <android.support.v7.widget.AppCompatButton
+        </LinearLayout>
+
+        <!--login button-->
+        <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="25dp"
-            android:text="Login"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="18dp"
+            android:text="@string/string_login"
             android:id="@+id/btn_login"
-            android:padding="12dp"
-            android:background="@drawable/white_rounded_button"
+            android:padding="5dp"
+            android:background="@drawable/button_eden"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="16sp"
             />
 
+        <!--create an account-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"
-            android:text="No account yet? Create one"
+            android:text="@string/string_create_an_account"
             android:gravity="center"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:id="@+id/link_signup"
-            android:textColor="@color/link_blue"
+            android:textColor="@color/dark_grey"
             />
 
     </LinearLayout>
@@ -83,13 +138,17 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Please wait..."
+        android:text=""
         android:textColor="@color/black"
         android:textSize="20sp"
         android:layout_alignBottom="@+id/progressBar"
         android:layout_alignRight="@+id/progressBar"
+        android:layout_alignEnd="@+id/progressBar"
         android:layout_alignLeft="@+id/progressBar"
-        android:id="@+id/pleaseWait"/>
+        android:layout_alignStart="@+id/progressBar"
+        android:id="@+id/pleaseWait"
+        android:gravity="center"
+        />
 
 
 </RelativeLayout>

@@ -16,7 +16,7 @@
 
         <!--Instance of the DrawingView class -->
         <com.team06.freehand.Chat.DrawingView
-            android:id="@+id/drawing"
+            android:id="@+id/draw_view"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -51,6 +51,16 @@
                     android:background="@drawable/button_rounded_rectangle_eden"
                     android:src="@drawable/ic_new" />
 
+                <!--save button-->
+                <ImageButton
+                    android:id="@+id/save_btn"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:scaleType="fitCenter"
+                    android:background="@drawable/button_rounded_rectangle_eden"
+                    android:src="@drawable/ic_save" />
+
                 <!--brush button-->
                 <ImageButton
                     android:id="@+id/draw_btn"
@@ -80,16 +90,6 @@
                     android:scaleType="fitCenter"
                     android:background="@drawable/button_rounded_rectangle_eden"
                     android:src="@drawable/ic_settings_white" />
-
-                <!--save button-->
-                <ImageButton
-                    android:id="@+id/save_btn"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="5dp"
-                    android:scaleType="fitCenter"
-                    android:background="@drawable/button_rounded_rectangle_eden"
-                    android:src="@drawable/ic_save" />
 
             </LinearLayout>
 

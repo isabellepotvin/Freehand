@@ -4,18 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,10 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.team06.freehand.Models.ChatMessage;
-import com.team06.freehand.Models.User;
-import com.team06.freehand.Models.UserChats;
 import com.team06.freehand.R;
-import com.team06.freehand.Utils.ChatListAdapter;
 import com.team06.freehand.Utils.DrawingListAdapter;
 import com.team06.freehand.Utils.FirebaseMethods;
 
@@ -137,9 +130,9 @@ public class PrivateChatActivity extends AppCompatActivity {
                 }
 
                 //populates list view
-                DrawingListAdapter adapter = new DrawingListAdapter(mContext, R.layout.snippet_messagelist_rowview_left, chatDrawings);
+                DrawingListAdapter adapter = new DrawingListAdapter(mContext, R.layout.snippet_drawinglist_rowview_, chatDrawings, mAuth.getCurrentUser().getUid());
                 mListView.setAdapter(adapter);
-
+                mListView.setSelection(adapter.getCount() - 1);
             }
 
             @Override

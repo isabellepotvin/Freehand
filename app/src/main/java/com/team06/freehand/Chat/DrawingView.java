@@ -57,7 +57,6 @@ public class DrawingView extends View {
         mContext = context;
 
         Log.d(TAG, "DrawingView: creating drawing view");
-        Log.d(TAG, "DrawingView: closeBtn: " + closeBtn);
         Log.d(TAG, "DrawingView: context: " + context + " , " + ((Activity) context));
     }
 
@@ -107,14 +106,14 @@ public class DrawingView extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 drawPath.moveTo(touchX, touchY);
-                closeBtn.setVisibility(GONE);
+                //closeBtn.setVisibility(GONE);
                 break;
             case MotionEvent.ACTION_MOVE:
                 drawPath.lineTo(touchX, touchY);
                 break;
             case MotionEvent.ACTION_UP:
                 drawCanvas.drawPath(drawPath, drawPaint);
-                closeBtn.setVisibility(VISIBLE);
+                //closeBtn.setVisibility(VISIBLE);
                 drawPath.reset();
                 break;
             default:
@@ -134,9 +133,12 @@ public class DrawingView extends View {
 
     //updates brush size
     public void setBrushSize(float newSize){
+        Log.d(TAG, "setBrushSize: new brush size: " + newSize);
         float pixelAmount = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, newSize, getResources().getDisplayMetrics());
         brushSize = pixelAmount;
         drawPaint.setStrokeWidth(brushSize);
+        Log.d(TAG, "setBrushSize: brush size (pixels): " + brushSize);
+
     }
 
     //setter

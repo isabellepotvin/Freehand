@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#696E6E</color>      <!--medium_grey-->  <!--old: 3F51B5-->
+    <color name="colorPrimaryDark">#2a2c2c</color>  <!--dark_grey-->    <!--old: 303F9F-->
+    <color name="colorAccent">#145f58</color>       <!--eden-->         <!--old: FF4081-->
+
+
 
     <color name="white">#ffffff</color>
     <color name="grey">#bfbfbf</color>
@@ -13,6 +15,13 @@
     <color name="light_green">#d9e3d4</color>
     <color name="forest_green">#2c4033</color>
     <color name="eden_green">#145f58</color>
+
+    <!--<color name="medium_grey">#555959</color>-->
+    <color name="medium_grey">#696E6E</color>
+
+
+
+
 
     <color name="link_blue">#005ce6</color>
 

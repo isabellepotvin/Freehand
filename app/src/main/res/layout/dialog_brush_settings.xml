@@ -1,89 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:layout_margin="10dp"
+    android:layout_centerInParent="true"
     >
 
-
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="10dp">
-
-        <!--brush size text-->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/string_brush_size"
-            android:textSize="16sp"
-            android:textColor="@color/dark_grey"
-            android:layout_marginBottom="5dp"
-            />
-
-        <!--brush size seek bar-->
-        <com.xw.repo.BubbleSeekBar
-            android:id="@+id/brush_size"
-            android:layout_marginBottom="30dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:bsb_bubble_color="@color/dark_grey"
-            app:bsb_bubble_text_color="@android:color/white"
-            app:bsb_max="150"
-            app:bsb_min="1"
-            app:bsb_track_color="@color/eden_green"
-            app:bsb_second_track_color="@color/eden_green"
-            app:bsb_section_count="1"
-            app:bsb_show_progress_in_float="false"
-            app:bsb_show_section_mark="false"
-            app:bsb_show_section_text="false"
-            app:bsb_show_thumb_text="false"
-            app:bsb_thumb_radius="15dp"
-            />
-    </LinearLayout>
-
-    <!-- Cancel and done buttons -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
+        android:background="@drawable/button_rectangle_white"
+        android:layout_centerInParent="true"
         >
 
-        <!--cancel-->
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_weight="1"
-            android:textSize="18sp"
-            android:textColor="@color/eden_green"
-            android:text="@string/string_cancel"
-            android:textStyle="bold"
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:background="@drawable/button_rectangle_white"
-            android:id="@+id/dialogCancel"
-            />
+            android:padding="10dp">
 
-        <!--done-->
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_weight="1"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:text="@string/string_done"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:background="@drawable/button_rectangle_eden"
-            android:id="@+id/dialogConfirm"
-            />
+            <!--brush size text-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/string_brush_size"
+                android:textSize="16sp"
+                android:textColor="@color/dark_grey"
+                android:layout_marginBottom="5dp"
+                />
+
+            <!--brush size seek bar-->
+            <com.xw.repo.BubbleSeekBar
+                android:id="@+id/brush_size"
+                android:layout_marginBottom="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:bsb_bubble_color="@color/dark_grey"
+                app:bsb_bubble_text_color="@android:color/white"
+                app:bsb_max="150"
+                app:bsb_min="1"
+                app:bsb_track_color="@color/eden_green"
+                app:bsb_second_track_color="@color/eden_green"
+                app:bsb_section_count="1"
+                app:bsb_show_progress_in_float="false"
+                app:bsb_show_section_mark="false"
+                app:bsb_show_section_text="false"
+                app:bsb_show_thumb_text="false"
+                app:bsb_thumb_radius="15dp"
+                />
+        </LinearLayout>
+
+        <!-- Cancel and done buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <!--cancel-->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:textColor="@color/eden_green"
+                android:text="@string/string_cancel"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:background="@drawable/button_rectangle_white"
+                android:id="@+id/dialogCancel"
+                />
+
+            <!--done-->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:text="@string/string_done"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:background="@drawable/button_rectangle_eden"
+                android:id="@+id/dialogConfirm"
+                />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-
-</LinearLayout>
+</RelativeLayout>

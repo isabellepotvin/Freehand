@@ -4,11 +4,13 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -33,8 +35,12 @@ public class DrawingListAdapter extends ArrayAdapter<ChatMessage> {
 
     private static final String TAG = "DrawingListAdapter";
 
+    private int drawingMarging = 100;
+
     private Context mContext;
     int mResource;
+    String currentUserID;
+
 
     static class ViewHolder {
         ImageView drawing;
@@ -47,10 +53,11 @@ public class DrawingListAdapter extends ArrayAdapter<ChatMessage> {
      * @param resource
      * @param objects
      */
-    public DrawingListAdapter(@NonNull Context context, int resource, ArrayList<ChatMessage> objects) {
+    public DrawingListAdapter(@NonNull Context context, int resource, ArrayList<ChatMessage> objects, String currentUserID) {
         super(context, resource, objects);
         mContext = context;
         mResource = resource;
+        this.currentUserID = currentUserID;
     }
 
     @NonNull
@@ -86,7 +93,7 @@ public class DrawingListAdapter extends ArrayAdapter<ChatMessage> {
 
         //creates simple date formats
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.CANADA);
-        SimpleDateFormat newSdf = new SimpleDateFormat("MMM dd, yyyy 'at' HH:mm a", Locale.CANADA);
+        SimpleDateFormat newSdf = new SimpleDateFormat("MMM dd, yyyy 'at' h:mm a", Locale.CANADA);
         sdf.setTimeZone(TimeZone.getTimeZone("Canada/Eastern"));
         newSdf.setTimeZone(TimeZone.getTimeZone("Canada/Eastern"));
 
@@ -101,6 +108,26 @@ public class DrawingListAdapter extends ArrayAdapter<ChatMessage> {
 
         //sets timestamp
         holder.timestamp.setText(String.valueOf(timestamp));
+
+
+
+        //aligns drawing to the left or right
+
+        RelativeLayout.LayoutParams paramsDrawing = (RelativeLayout.LayoutParams) holder.drawing.getLayoutParams();
+
+        if(sender_user_id.equals(currentUserID)){ //align right
+            paramsDrawing.setMargins(drawingMarging, 0, 0, 0);
+            holder.timestamp.setGravity(Gravity.END); //aligns the text to the right
+        }
+        else{ //align left
+            paramsDrawing.setMargins(0, 0, drawingMarging, 0);
+            holder.timestamp.setGravity(Gravity.START); //aligns the text to the left
+
+        }
+
+        holder.drawing.setLayoutParams(paramsDrawing);
+
+
 
         return convertView;
 

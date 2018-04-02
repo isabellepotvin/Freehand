@@ -2,20 +2,10 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:state_selected="true">
-        <shape>
-            <solid
-                android:color="@color/medium_grey" />
-            <corners
-                android:radius="5dp"/>
-        </shape>
-    </item>
-
-    <item
         android:state_pressed="true">
         <shape>
             <solid
-                android:color="@color/medium_grey" />
+                android:color="@color/dark_grey" />
             <corners
                 android:radius="5dp"/>
         </shape>
@@ -25,9 +15,6 @@
         <shape>
             <solid
                 android:color="@color/eden_green" />
-            <stroke
-                android:color="@color/eden_green"
-                android:width="0.5dp"/>
             <corners
                 android:radius="5dp"/>
         </shape>

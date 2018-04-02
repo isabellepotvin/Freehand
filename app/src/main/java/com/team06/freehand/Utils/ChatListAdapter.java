@@ -88,7 +88,7 @@ public class ChatListAdapter extends ArrayAdapter<InfoChat> {
 
         //creates simple date formats
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.CANADA);
-        SimpleDateFormat newSdf = new SimpleDateFormat("MMM dd, yyyy 'at' HH:mm a", Locale.CANADA);
+        SimpleDateFormat newSdf = new SimpleDateFormat("MMM dd, yyyy 'at' h:mm a", Locale.CANADA);
         sdf.setTimeZone(TimeZone.getTimeZone("Canada/Eastern"));
         newSdf.setTimeZone(TimeZone.getTimeZone("Canada/Eastern"));
 
