@@ -526,7 +526,7 @@ public class FirebaseMethods {
                             if(task.isSuccessful()) {
 
                             }else{
-                                Toast.makeText(mContext, "Couldn't send verification email.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext, "Couldn't send verification email", Toast.LENGTH_SHORT).show();
                             }
 
                         }

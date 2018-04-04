@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:id="@+id/btn_drawingSpace"
-            android:background="@color/eden_green"
+            android:background="@color/primary_green"
             android:layout_alignParentBottom="true">
 
             <LinearLayout

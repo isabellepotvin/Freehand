@@ -71,7 +71,12 @@
     <string name="string_login">Login</string>
     <string name="string_email">Email</string>
     <string name="string_password">Password</string>
-    <string name="string_create_an_account">Create an account</string>
+    <string name="string_no_account_yet">No account yet?\u0020</string>
+    <string name="string_signup">Sign up</string>
+
+    <!--toasts-->
+    <string name="toast_fill_out_all_fields">All fields must be filled out</string>
+    <string name="toast_18_or_older">Sorry, you must be 18 or older to create an account</string>
 
 
 

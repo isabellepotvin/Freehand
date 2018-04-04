@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#696E6E</color>      <!--medium_grey-->  <!--old: 3F51B5-->
-    <color name="colorPrimaryDark">#2a2c2c</color>  <!--dark_grey-->    <!--old: 303F9F-->
-    <color name="colorAccent">#145f58</color>       <!--eden-->         <!--old: FF4081-->
+    <color name="colorPrimary">#696E6E</color>      <!--medium_grey-->      <!--old: 3F51B5-->
+    <color name="colorPrimaryDark">#2a2c2c</color>  <!--dark_grey-->        <!--old: 303F9F-->
+    <color name="colorAccent">#23CF7F</color>       <!--primary_green-->    <!--old: FF4081-->
 
 
 
@@ -12,8 +12,28 @@
 
     <color name="dark_grey">#2a2c2c</color>
     <color name="light_grey">#abacac</color>
-    <color name="light_green">#d9e3d4</color>
+    <!--<color name="light_green">#d9e3d4</color>-->
     <color name="forest_green">#2c4033</color>
+
+
+    <color name="light_green">#29DC88</color>
+    <color name="primary_green">#23CF7F</color>
+    <color name="medium_green">#17B66C</color>
+    <color name="dark_green">#0E9958</color>
+    <color name="darker_green">#0E7846</color>
+
+    <!--
+
+    Greens:
+
+    29DC88
+    23CF7F
+    17B66C
+    0E9958
+    0E7846
+
+    -->
+
     <color name="eden_green">#145f58</color>
 
     <!--<color name="medium_grey">#555959</color>-->

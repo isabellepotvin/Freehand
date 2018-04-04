@@ -7,7 +7,7 @@
             <solid
                 android:color="@color/grey" />
             <stroke
-                android:color="@color/eden_green"
+                android:color="@color/primary_green"
                 android:width="2dp"/>
         </shape>
     </item>
@@ -17,7 +17,7 @@
             <solid
                 android:color="@color/white" />
             <stroke
-                android:color="@color/eden_green"
+                android:color="@color/primary_green"
                 android:width="2dp"/>
         </shape>
     </item>

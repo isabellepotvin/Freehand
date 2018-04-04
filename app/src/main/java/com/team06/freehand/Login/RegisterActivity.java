@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.team06.freehand.R;
 import com.team06.freehand.Utils.FirebaseMethods;
+import com.team06.freehand.Utils.UniversalImageLoader;
 
 /**
  * Created by isabellepotvin on 2018-02-25.
@@ -45,6 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseMethods firebaseMethods;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference myRef;
+    private ImageView mBgImage;
 
 
     @Override
@@ -55,6 +58,10 @@ public class RegisterActivity extends AppCompatActivity {
         mContext = RegisterActivity.this;
         firebaseMethods = new FirebaseMethods(mContext);
         Log.d(TAG, "onCreate: started.");
+
+        mBgImage = (ImageView) findViewById(R.id.bg_image);
+
+        UniversalImageLoader.setImage("drawable://" + R.drawable.sketchbook_and_pens, mBgImage, null, "");
 
         initWidgets();
         setupFirebaseAuth();
@@ -89,11 +96,11 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean checkInputs(String email, String name, String password, String age, String location){
         Log.d(TAG, "checkInputs: checking inputs for null values.");
         if(email.equals("") || name.equals("") || password.equals("") || age.equals("") || location.equals("")){
-            Toast.makeText(mContext, "All fields must be filled out.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, R.string.toast_fill_out_all_fields, Toast.LENGTH_SHORT).show();
             return false;
         }
         if(Long.parseLong(age) <= 18){
-            Toast.makeText(mContext, "Sorry, you must be 18 or older to create an account.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, R.string.toast_18_or_older, Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -169,6 +176,7 @@ public class RegisterActivity extends AppCompatActivity {
                     });
 
                     finish(); //finishes the activity (goes back to previous activity)
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
                 } else{
 

@@ -2,8 +2,6 @@ package com.team06.freehand.Login;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,20 +19,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthActionCodeException;
-import com.google.firebase.auth.FirebaseAuthEmailException;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthInvalidUserException;
-import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 import com.team06.freehand.Explore.ExploreActivity;
 import com.team06.freehand.R;
 import com.team06.freehand.Utils.FirebaseMethods;
-
-import org.w3c.dom.Text;
+import com.team06.freehand.Utils.UniversalImageLoader;
 
 /**
  * Created by isabellepotvin on 2018-02-25.
@@ -53,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressBar mProgressBar;
     private EditText mEmail, mPassword;
     private TextView mPleaseWait;
+    private ImageView mBgImage;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +56,9 @@ public class LoginActivity extends AppCompatActivity {
         mPassword = (EditText) findViewById(R.id.input_password);
         mContext = LoginActivity.this;
         mFirebaseMethods = new FirebaseMethods(mContext);
+        mBgImage = (ImageView) findViewById(R.id.bg_image);
+
+        UniversalImageLoader.setImage("drawable://" + R.drawable.sketchbook_and_pens, mBgImage, null, "");
 
         Log.d(TAG, "onCreate: started.");
 
@@ -108,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                 String password = mPassword.getText().toString();
 
                 if(isStringNull(email) && isStringNull(password)){ //if the email or password is null
-                    Toast.makeText(mContext, "You must fill out all the fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, R.string.toast_fill_out_all_fields, Toast.LENGTH_SHORT).show();
                 }else{
                     mProgressBar.setVisibility(View.VISIBLE);
                     mPleaseWait.setVisibility(View.VISIBLE);
@@ -167,6 +161,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(TAG, "onClick: navigating to register screen");
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 
