@@ -30,6 +30,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.team06.freehand.Chat.PrivateChatActivity;
 import com.team06.freehand.Login.LoginActivity;
 import com.team06.freehand.Models.ChatMessage;
 import com.team06.freehand.Models.Photo;
@@ -40,6 +41,7 @@ import com.team06.freehand.Profile.ProfileActivity;
 import com.team06.freehand.R;
 import com.team06.freehand.Share.NextActivity;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -353,6 +355,18 @@ public class FirebaseMethods {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.CANADA);
         sdf.setTimeZone(TimeZone.getTimeZone("Canada/Eastern"));
         return sdf.format(new Date());
+    }
+
+    public Date getDateFromTimestamp(String date){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.CANADA);
+        sdf.setTimeZone(TimeZone.getTimeZone("Canada/Eastern"));
+
+        try {
+            return sdf.parse(date);
+        }catch (ParseException e){
+            Log.e(TAG, "getDateFromTimestamp: " + e.getMessage());
+            return null;
+        }
     }
 
     public int getImageCount(DataSnapshot dataSnapshot, String chatID){

@@ -54,8 +54,8 @@ public class PrivateChatActivity extends AppCompatActivity {
     private String chatID;
     private String personName;
     private String otherUserID;
-
-
+    private int UpdateListRequestCode = 2;
+    DrawingListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +67,7 @@ public class PrivateChatActivity extends AppCompatActivity {
 
         //list view
         mListView = (ListView) findViewById(R.id.list_of_messages);
+
 
         //name
         tvName = (TextView) findViewById(R.id.person_name);
@@ -109,6 +110,16 @@ public class PrivateChatActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == UpdateListRequestCode){
+
+        }
+
+    }
+
     private void setupListView(){
 
         Log.d(TAG, "setupListView: settings up list view.");
@@ -120,7 +131,7 @@ public class PrivateChatActivity extends AppCompatActivity {
                 .child(getString(R.string.dbname_chats))
                 .child(chatID);
 
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -130,9 +141,10 @@ public class PrivateChatActivity extends AppCompatActivity {
                 }
 
                 //populates list view
-                DrawingListAdapter adapter = new DrawingListAdapter(mContext, R.layout.snippet_drawinglist_rowview_, chatDrawings, mAuth.getCurrentUser().getUid());
+                adapter = new DrawingListAdapter(mContext, R.layout.snippet_drawinglist_rowview_, chatDrawings, mAuth.getCurrentUser().getUid());
                 mListView.setAdapter(adapter);
                 mListView.setSelection(adapter.getCount() - 1);
+
             }
 
             @Override
@@ -156,6 +168,9 @@ public class PrivateChatActivity extends AppCompatActivity {
         Log.d(TAG, "getIntentExtras: personName: " + otherUserID);
     }
 
+    public void updateList(){
+        adapter.notifyDataSetChanged();
+    }
 
 
 
@@ -195,8 +210,6 @@ public class PrivateChatActivity extends AppCompatActivity {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-                //load chats
 
 
             }

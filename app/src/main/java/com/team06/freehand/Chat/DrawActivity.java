@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,12 +45,15 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
 
     //widgets
     private DrawingView drawView;
-    private ImageButton currPaint, drawBtn, eraseBtn, settingsBtn, newBtn, saveBtn, closeBtn, sendBtn;
+    private ImageButton currPaint, drawBtn, eraseBtn, settingsBtn, newBtn, saveBtn, sendBtn;
+    private ImageView closeBtn;
 
     //vars
     private int drawingCount = 0;
     private String chatID;
     private String otherUserID;
+
+
 
 
     @Override
@@ -100,7 +105,7 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
         saveBtn.setOnClickListener(this);
 
         //close button
-        closeBtn = (ImageButton) findViewById(R.id.close_btn);
+        closeBtn = (ImageView) findViewById(R.id.close_btn);
         closeBtn.setOnClickListener(this);
         drawView.setupCloseBtn(closeBtn);
 
@@ -281,7 +286,7 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
             Log.d(TAG, "onClick: sending drawing: bm: " + drawView.getDrawingCache());
 
             //if(drawView.getDrawingCache() != null) {
-                mFirebaseMethods.uploadNewMessage(drawView.getDrawingCache(), drawingCount, chatID, otherUserID);
+            mFirebaseMethods.uploadNewMessage(drawView.getDrawingCache(), drawingCount, chatID, otherUserID);
            // }
             //else{
               //  Toast.makeText(this, "You did not draw anything", Toast.LENGTH_SHORT).show();

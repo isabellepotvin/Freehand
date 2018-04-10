@@ -89,7 +89,7 @@
                     android:layout_margin="5dp"
                     android:scaleType="fitCenter"
                     android:background="@drawable/button_rounded_rectangle_eden"
-                    android:src="@drawable/ic_settings_white" />
+                    android:src="@drawable/ic_brush_settings" />
 
             </LinearLayout>
 
@@ -280,15 +280,26 @@
 
 
     <!--close btn-->
-    <ImageButton
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#aaffffff"
         android:layout_margin="5dp"
-        android:src="@drawable/ic_x"
-        android:id="@+id/close_btn"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        />
+        android:padding="3dp"
+        >
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_x"
+            android:id="@+id/close_btn"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@null"
+            />
+
+    </RelativeLayout>
+
 
 </RelativeLayout>

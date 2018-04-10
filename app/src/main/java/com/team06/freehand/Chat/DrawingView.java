@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.team06.freehand.R;
 
@@ -42,7 +43,7 @@ public class DrawingView extends View {
     private Bitmap canvasBitmap;
 
     //close button
-    private ImageButton closeBtn;
+    private ImageView closeBtn;
 
     private float brushSize, lastBrushSize;
     private boolean erase=false;
@@ -106,14 +107,14 @@ public class DrawingView extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 drawPath.moveTo(touchX, touchY);
-                //closeBtn.setVisibility(GONE);
+                closeBtn.setVisibility(GONE);
                 break;
             case MotionEvent.ACTION_MOVE:
                 drawPath.lineTo(touchX, touchY);
                 break;
             case MotionEvent.ACTION_UP:
                 drawCanvas.drawPath(drawPath, drawPaint);
-                //closeBtn.setVisibility(VISIBLE);
+                closeBtn.setVisibility(VISIBLE);
                 drawPath.reset();
                 break;
             default:
@@ -169,7 +170,7 @@ public class DrawingView extends View {
         invalidate();
     }
 
-    public void setupCloseBtn(ImageButton button){
+    public void setupCloseBtn(ImageView button){
         closeBtn = button;
     }
 

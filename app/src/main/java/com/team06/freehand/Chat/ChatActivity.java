@@ -30,6 +30,9 @@ import com.team06.freehand.Utils.FirebaseMethods;
 import com.team06.freehand.Utils.ChatListAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -75,27 +78,40 @@ public class ChatActivity extends AppCompatActivity {
 
         Log.d(TAG, "setupListView: settings up list view.");
 
-        final ArrayList<UserChats> userChats = new ArrayList<>();
-
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         Query query = reference
                 .child(getString(R.string.dbname_user_chats))
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Log.d(TAG, "onDataChange: dataChanged.");
+
+                final ArrayList<UserChats> userChats = new ArrayList<>();
 
                 //gets the chat information
                 for( DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
                     userChats.add(singleSnapshot.getValue(UserChats.class));
                 }
 
+                //sorts the chats in descending order of the "last_timestamp"
+                Collections.sort(userChats, new Comparator<UserChats>() {
+                    @Override
+                    public int compare(UserChats first, UserChats second) {
+                        Date firstDate = mFirebaseMethods.getDateFromTimestamp(first.getLast_timestamp());
+                        Date secondDate = mFirebaseMethods.getDateFromTimestamp(second.getLast_timestamp());
+
+                        return secondDate.compareTo(firstDate); //descending order
+                    }
+                });
+
                 //creates an ArrayList of Users
                 final ArrayList<InfoChat> chatList = new ArrayList<>();
 
                 //allows us to read from the database
-                myRef.addValueEventListener(new ValueEventListener() {
+                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         //adds users to the array list
@@ -105,28 +121,29 @@ public class ChatActivity extends AppCompatActivity {
 
                             User user = mFirebaseMethods.getUserInfo(dataSnapshot, userChats.get(i).getOther_user_id()); //gets all user information
 
-                            Log.d(TAG, "onDataChange: user: " + user.toString());
+                            Log.d(TAG, "onDataChange: user name: " + user.getName());
 
                             //adds user's name and profile photo to the chat list array
                             chatList.add(new InfoChat(user.getName(),
                                     user.getProfile_photo(), userChats.get(i).getLast_timestamp()));
 
+                            Log.d(TAG, "onDataChange: last timestamp: " + userChats.get(i).getLast_timestamp());
+
                             Log.d(TAG, "onDataChange: chatList: " + chatList.get(i).getImgUrl());
+
                         }
+
+                        //populates list view
+                        ChatListAdapter adapter = new ChatListAdapter(mContext, R.layout.snippet_chatlist_rowview, chatList);
+                        mListView.setAdapter(adapter);
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
 
                     }
+
                 });
-
-
-
-                //populates list view
-                ChatListAdapter adapter = new ChatListAdapter(mContext, R.layout.snippet_chatlist_rowview, chatList);
-                mListView.setAdapter(adapter);
-
 
                 //when a chat is clicked in the list
                 mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
