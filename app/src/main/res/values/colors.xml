@@ -22,6 +22,10 @@
     <color name="dark_green">#0E9958</color>
     <color name="darker_green">#0E7846</color>
 
+    <color name="link_blue">#23CF7F</color>
+    <!--<color name="link_blue">#005ce6</color>-->
+
+
     <!--
 
     Greens:
@@ -43,7 +47,6 @@
 
 
 
-    <color name="link_blue">#005ce6</color>
 
 
 

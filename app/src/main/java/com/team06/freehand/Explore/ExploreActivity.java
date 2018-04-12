@@ -26,11 +26,16 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.team06.freehand.Chat.InfoChat;
 import com.team06.freehand.Login.LoginActivity;
+import com.team06.freehand.Models.ChatMessage;
 import com.team06.freehand.Models.Photo;
 import com.team06.freehand.Models.User;
+import com.team06.freehand.Models.UserLikes;
 import com.team06.freehand.R;
 import com.team06.freehand.Utils.BottomNavigationViewHelper;
+import com.team06.freehand.Utils.ChatListAdapter;
+import com.team06.freehand.Utils.DrawingListAdapter;
 import com.team06.freehand.Utils.FirebaseMethods;
 import com.team06.freehand.Utils.GridImageAdapter;
 import com.team06.freehand.Utils.UniversalImageLoader;
@@ -107,6 +112,13 @@ public class ExploreActivity extends AppCompatActivity {
         btnYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                String otherUserID = randomUserID;
+
+                mFirebaseMethods.saveLike(otherUserID);
+                checkForConnection(otherUserID);
+
+                //displays new user
                 displayNewUser();
             }
         });
@@ -118,6 +130,93 @@ public class ExploreActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    // checks if the other user has liked the current user --> if they have
+    // a new chat is created (if one does not already exist)
+    private void checkForConnection(final String otherUserID){
+
+        //**
+        //checks if other user "liked" them
+        //**
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        Query query = reference
+                .child(getString(R.string.dbname_user_likes))
+                .child(otherUserID);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                //iterates through all of the other user's "likes"
+                for( DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
+
+                    UserLikes userLike = singleSnapshot.getValue(UserLikes.class);
+
+                    //if the other user has liked the current user
+                    if(userLike.getOther_user_id().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+
+                        Log.d(TAG, "onDataChange: Users" + FirebaseAuth.getInstance().getCurrentUser().getUid() +
+                                " and " + otherUserID + "like each other.");
+
+                        //**
+                        //checks if the chat already exists
+                        //**
+
+                        DatabaseReference reference2 = FirebaseDatabase.getInstance().getReference();
+                        Query query = reference2
+                                .child(getString(R.string.dbname_user_chats))
+                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                        query.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                boolean chatExists = false;
+
+                                //iterates through all of the current user's "chats"
+                                for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
+                                    //if chat already exist
+                                    if(singleSnapshot.getKey().equals(otherUserID)){
+                                        chatExists = true;
+                                        Log.d(TAG, "onDataChange: Chat already exists.");
+                                    }
+                                }
+
+                                //if the chat does not exist --> create new chat
+                                if(!chatExists){
+
+                                    mFirebaseMethods.createNewChat(otherUserID);
+
+                                    Log.d(TAG, "onDataChange: Creating new chat between userIDs: " +
+                                            FirebaseAuth.getInstance().getCurrentUser().getUid() + " and " + otherUserID);
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d(TAG, "onCancelled: query cancelled.");
+            }
+        });
+
+
+    }
+
+
+
 
     private void displayNewUser(){
 

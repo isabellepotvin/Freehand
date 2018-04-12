@@ -74,9 +74,11 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "isStringNull: checking string if null.");
 
         if(string.equals("")){ //if string is null
+            Log.d(TAG, "isStringNull: string is null.");
             return true;
         }
         else{ //if string is not null
+            Log.d(TAG, "isStringNull: string is not null.");
             return false;
         }
     }
@@ -101,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
                 String email = mEmail.getText().toString();
                 String password = mPassword.getText().toString();
 
-                if(isStringNull(email) && isStringNull(password)){ //if the email or password is null
+                if(isStringNull(email) || isStringNull(password)){ //if the email or password is null
                     Toast.makeText(mContext, R.string.toast_fill_out_all_fields, Toast.LENGTH_SHORT).show();
                 }else{
                     mProgressBar.setVisibility(View.VISIBLE);

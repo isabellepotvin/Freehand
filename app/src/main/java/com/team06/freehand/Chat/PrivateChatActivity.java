@@ -124,8 +124,6 @@ public class PrivateChatActivity extends AppCompatActivity {
 
         Log.d(TAG, "setupListView: settings up list view.");
 
-        final ArrayList<ChatMessage> chatDrawings = new ArrayList<>();
-
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         Query query = reference
                 .child(getString(R.string.dbname_chats))
@@ -134,6 +132,8 @@ public class PrivateChatActivity extends AppCompatActivity {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+                final ArrayList<ChatMessage> chatDrawings = new ArrayList<>();
 
                 //gets the chat information
                 for( DataSnapshot singleSnapshot : dataSnapshot.getChildren()){

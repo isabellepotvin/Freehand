@@ -9,11 +9,6 @@
         android:background="@drawable/grey_border_bottom_white"
         >
 
-        <android.support.v7.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/profileToolbar">
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -21,35 +16,27 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_centerVertical="true"
                     android:id="@+id/backArrow"
                     android:src="@drawable/ic_backarrow"
                     />
 
                 <TextView
-                    android:layout_toRightOf="@+id/backArrow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="Options"
+                    android:text="@string/string_settings"
                     android:textSize="20sp"
                     android:textColor="@color/black"
                     android:layout_marginStart="5dp"
                     android:layout_marginLeft="5dp"
                     android:id="@+id/profileName"
+                    android:layout_centerInParent="true"
                     />
 
-
             </RelativeLayout>
-
-
-
-        </android.support.v7.widget.Toolbar>
-
 
     </android.support.design.widget.AppBarLayout>
 
