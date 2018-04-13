@@ -4,6 +4,7 @@
     <!--Fragment names-->
     <string name="sign_out_fragment">Sign Out</string>
     <string name="edit_profile_fragment">Edit Profile</string>
+    <string name="account_fragment">Account Settings</string>
     <string name="profile_fragment">Profile</string>
     <string name="chat_fragment">Chat</string>
     <string name="private_chat_fragment">Private Chat</string>
@@ -75,6 +76,9 @@
     <string name="string_no_account_yet">No account yet?\u0020</string>
     <string name="string_signup">Sign up</string>
     <string name="string_settings">Settings</string>
+    <string name="string_drawing_space">Drawing Space</string>
+    <string name="string_confirm">Confirm</string>
+    <string name="string_change_email_to">Change Email to:</string>
 
     <!--toasts-->
     <string name="toast_fill_out_all_fields">All fields must be filled out</string>

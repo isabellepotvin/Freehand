@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/relLayout_gridview"
             android:layout_below="@+id/relLayout1"
-            android:layout_marginBottom="55dp">
+            android:layout_marginBottom="100dp">
 
             <GridView
                 android:layout_width="match_parent"
@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="54dp">
+            android:layout_marginBottom="@dimen/bottom_nav_height">
 
             <include layout="@layout/layout_explore_userinfo" />
 

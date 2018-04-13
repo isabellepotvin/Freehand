@@ -1,6 +1,8 @@
 package com.team06.freehand.Profile;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -55,6 +58,7 @@ public class ProfileFragment extends Fragment {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference myRef;
+    private String currentUserID;
     private FirebaseMethods mFirebaseMethods;
 
     //widgets
@@ -111,16 +115,18 @@ public class ProfileFragment extends Fragment {
     private void setupGridView(){
         Log.d(TAG, "setupGridView: Setting up image grid.");
 
-        final ArrayList<Photo> photos = new ArrayList<>();
-
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         Query query = reference
                 .child(getString(R.string.dbname_user_photos))
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        query.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+                final ArrayList<Photo> photos = new ArrayList<>();
+
                 for( DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
                     photos.add(singleSnapshot.getValue(Photo.class));
                 }
@@ -139,6 +145,29 @@ public class ProfileFragment extends Fragment {
 
                 GridImageAdapter adapter = new GridImageAdapter(getActivity(), R.layout.layout_grid_imageview, "", imgUrls, getString(R.string.img_squareImageView));
                 gridView.setAdapter(adapter);
+
+
+                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
+                        //alert
+                        AlertDialog.Builder newDialog = new AlertDialog.Builder(mContext);
+                        newDialog.setTitle("Delete");
+                        newDialog.setMessage("Do you want to delete this image from your profile?");
+                        newDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int which){
+                                mFirebaseMethods.deletePhoto(photos.get(i).getPhoto_id());
+                                dialog.dismiss();
+                            }
+                        });
+                        newDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int which){
+                                dialog.cancel();
+                            }
+                        });
+                        newDialog.show();
+                    }
+                });
 
             }
 
@@ -228,6 +257,7 @@ public class ProfileFragment extends Fragment {
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
+        currentUserID = mAuth.getCurrentUser().getUid();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -253,7 +283,7 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 //retrieve user information from database
-                setProfileWidgets(mFirebaseMethods.getUserInfo(dataSnapshot, mAuth.getCurrentUser().getUid()));
+                setProfileWidgets(mFirebaseMethods.getUserInfo(dataSnapshot, currentUserID));
 
                 //retrieve images for the user in question
             }

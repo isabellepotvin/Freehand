@@ -12,7 +12,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="@dimen/heading2"
             android:textColor="@color/black"
             android:id="@+id/tvConfirmSignout"
             android:text="Are you sure you want to sign out?"/>
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:text="Sign Out"
             android:layout_centerHorizontal="true"
-            android:textSize="20sp"
+            android:textSize="@dimen/heading1"
             android:id="@+id/btnConfirmSignout"
             android:layout_below="@+id/tvConfirmSignout"
             android:background="@drawable/button_white_rounded"
@@ -39,8 +39,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Signing out..."
-        android:textSize="20sp"
+        android:text=""
+        android:textSize="@dimen/body"
         android:layout_alignBottom="@+id/progressBar"
         android:layout_alignRight="@+id/progressBar"
         android:layout_alignLeft="@+id/progressBar"

@@ -55,7 +55,7 @@
                         android:id="@+id/input_email"/>
                 </android.support.design.widget.TextInputLayout>
 
-                <!--input username-->
+                <!--input name-->
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="text"
+                        android:inputType="number"
                         android:hint="Age"
                         android:id="@+id/input_age"/>
                 </android.support.design.widget.TextInputLayout>

@@ -8,8 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -100,7 +98,8 @@ public class AccountSettingsActivity extends AppCompatActivity{
     private void setupFragments(){
         pagerAdapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
         pagerAdapter.addFragment(new EditProfileFragment(), getString(R.string.edit_profile_fragment)); //fragment 0
-        pagerAdapter.addFragment(new SignOutFragment(), getString(R.string.sign_out_fragment)); //fragment 1
+        pagerAdapter.addFragment(new AccountFragment(), getString(R.string.account_fragment)); //fragment 1
+        pagerAdapter.addFragment(new SignOutFragment(), getString(R.string.sign_out_fragment)); //fragment 2
     }
 
     public void setViewPager(int fragmentNumber){
@@ -116,7 +115,8 @@ public class AccountSettingsActivity extends AppCompatActivity{
 
         ArrayList<String> options = new ArrayList<>();
         options.add(getString(R.string.edit_profile_fragment)); //fragment 0
-        options.add(getString(R.string.sign_out_fragment)); //fragment 1
+        options.add(getString(R.string.account_fragment)); //fragment 1
+        options.add(getString(R.string.sign_out_fragment)); //fragment 2
 
         ArrayAdapter adapter = new ArrayAdapter(mContext, android.R.layout.simple_list_item_1, options);
         listView.setAdapter(adapter);

@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_below="@+id/relLayout2"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:id="@+id/bio">
 
         <!--name-->
@@ -22,16 +22,16 @@
             android:textColor="@color/black"
             android:textStyle="bold"
             android:text=""
-            android:textSize="18sp"
+            android:textSize="@dimen/pre_body"
             android:gravity="center_horizontal"/>
 
-        <!--name and location-->
+        <!--age and location-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="3dp">
 
             <!--age-->
             <TextView
@@ -40,7 +40,7 @@
                 android:id="@+id/text_age"
                 android:textColor="@color/light_grey"
                 android:text="Age "
-                android:textSize="14sp"
+                android:textSize="@dimen/sub_body"
                 android:visibility="gone"/>
 
             <!--age number-->
@@ -50,7 +50,7 @@
                 android:id="@+id/age"
                 android:textColor="@color/light_grey"
                 android:text=""
-                android:textSize="14sp"/>
+                android:textSize="@dimen/sub_body"/>
 
             <!--vertical line-->
             <View
@@ -74,7 +74,7 @@
                 android:id="@+id/location"
                 android:textColor="@color/light_grey"
                 android:text=""
-                android:textSize="14sp"/>
+                android:textSize="@dimen/sub_body"/>
 
         </LinearLayout>
 
@@ -85,8 +85,8 @@
             android:id="@+id/description"
             android:textColor="@color/black"
             android:text=""
-            android:textSize="16sp"
-            android:layout_marginTop="5dp"
+            android:textSize="@dimen/body"
+            android:layout_marginTop="3dp"
             android:gravity="center_horizontal"/>
 
     </LinearLayout>

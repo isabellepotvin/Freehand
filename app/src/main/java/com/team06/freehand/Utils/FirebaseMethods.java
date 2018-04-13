@@ -48,6 +48,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import javax.xml.transform.Templates;
+
 /**
  * Created by isabellepotvin on 2018-02-25.
  */
@@ -213,7 +215,37 @@ public class FirebaseMethods {
     }
 
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - -     - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - Photo Related Methods - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+    public void deletePhoto(final String photoID){
+
+        FilePaths filePaths = new FilePaths();
+        String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        StorageReference photoRef = mStorageReference.child(filePaths.FIREBASE_IMAGE_STORAGE + "/" + user_id + "/" + photoID);
+
+        //delete from storage
+        photoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+                //delete from database
+                myRef.child(mContext.getString(R.string.dbname_user_photos))
+                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .child(photoID).removeValue();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "onFailure: Photo delete failed.");
+                Toast.makeText(mContext, "Sorry, we were unable to delete your image", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
 
     public void uploadNewPhoto(String photoType, final int count, final String imgUrl, Bitmap bm){
         Log.d(TAG, "uploadNewPhoto: attempting to upload new photo.");
@@ -228,8 +260,10 @@ public class FirebaseMethods {
 
             Log.d(TAG, "uploadNewPhoto: user id" + FirebaseAuth.getInstance().getCurrentUser().getUid());
 
+            final String newPhotoKey = generateNewPhotoKey();
+
             StorageReference storageReference = mStorageReference
-                    .child(filePaths.FIREBASE_IMAGE_STORAGE + "/" + user_id + "/photo" + (count + 1));
+                    .child(filePaths.FIREBASE_IMAGE_STORAGE + "/" + user_id + "/" + newPhotoKey);
 
 
             if(bm == null){
@@ -253,7 +287,7 @@ public class FirebaseMethods {
                             Toast.makeText(mContext, "Photo upload success", Toast.LENGTH_SHORT).show();
 
                             //add the new photo to 'user_photos' node
-                            addPhotoToDatabase(firebaseUrl.toString());
+                            addPhotoToDatabase(firebaseUrl.toString(), newPhotoKey);
 
                             //navigate to the profile so the user can see their photo
                             Intent intent = new Intent(mContext, ProfileActivity.class);
@@ -361,11 +395,15 @@ public class FirebaseMethods {
                 .setValue(url);
     }
 
-    private void addPhotoToDatabase(String url){
-        Log.d(TAG, "addPhotoToDatabase: adding photo to database.");
-
+    private String generateNewPhotoKey(){
         String newPhotoKey = myRef.child(mContext.getString(R.string.dbname_user_photos))
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).push().getKey();
+
+        return newPhotoKey;
+    }
+
+    private void addPhotoToDatabase(String url, String newPhotoKey){
+        Log.d(TAG, "addPhotoToDatabase: adding photo to database.");
 
         Photo photo = new Photo();
         photo.setDate_created(getTimestamp());
@@ -420,6 +458,68 @@ public class FirebaseMethods {
 
         return count;
     }
+
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - User Related Methods - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+    public void updatePassword(String newPassword){
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        user.updatePassword(newPassword)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "User password updated.");
+
+                            Toast.makeText(mContext, "Password updated", Toast.LENGTH_SHORT).show();
+                            ((Activity)mContext).finish();
+                        }
+                        else{
+                            Log.d(TAG, "onComplete: Failed to update password.");
+                            //Toast.makeText(mContext, "Sorry, we couldn't update your password", Toast.LENGTH_SHORT).show();
+                            displayAuthErrorMessages(task);
+                        }
+                    }
+                });
+
+    }
+
+//      if i were to add the feature to delete an account, I would need to delete more information from the
+//      database such as chats, pictures, etc.
+
+//      public void deleteUser(){
+//
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//
+//        user.delete()
+//                .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        if (task.isSuccessful()) {
+//                            Log.d(TAG, "User account deleted.");
+//
+//                            //delete from database
+//                            myRef.child(mContext.getString(R.string.dbname_user_photos))
+//                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+//
+//                        }
+//                        else{
+//                            Log.d(TAG, "onFailure: Account delete failed.");
+//                            Toast.makeText(mContext, "Sorry, we were unable to delete your account", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Log.d(TAG, "onFailure: Account delete failed.");
+//                Toast.makeText(mContext, "Sorry, we were unable to delete your account", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//    }
 
 
     /**
@@ -517,25 +617,25 @@ public class FirebaseMethods {
 
     }
 
-    public void displayAuthErrorMessages(@NonNull Task<AuthResult> task){
+    public <T> void displayAuthErrorMessages(@NonNull Task<T> task){
         try {
             throw task.getException();
         } catch(FirebaseAuthWeakPasswordException e) {
             Toast.makeText(mContext, e.getReason(), Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "signInWithEmail:failure: " + e.getErrorCode());
-            Log.d(TAG, "signInWithEmail:failure: " + e.getReason());
+            Log.d(TAG, "task failure: " + e.getErrorCode());
+            Log.d(TAG, "task failure: " + e.getReason());
 
         } catch(FirebaseAuthActionCodeException e) {
             Toast.makeText(mContext, e.getErrorCode(), Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "signInWithEmail:failure: " + e.getErrorCode());
+            Log.d(TAG, "task failure: " + e.getErrorCode());
 
         } catch(FirebaseAuthEmailException e) {
             Toast.makeText(mContext, e.getErrorCode(), Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "signInWithEmail:failure: " + e.getErrorCode());
+            Log.d(TAG, "task failure: " + e.getErrorCode());
 
         } catch(FirebaseAuthInvalidCredentialsException e) {
             Toast.makeText(mContext, e.getErrorCode(), Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "signInWithEmail:failure: " + e.getErrorCode());
+            Log.d(TAG, "task failure: " + e.getErrorCode());
 
         } catch(FirebaseAuthInvalidUserException e) {
             Toast.makeText(mContext, e.getErrorCode(), Toast.LENGTH_SHORT).show();
@@ -543,14 +643,14 @@ public class FirebaseMethods {
 
         } catch(FirebaseAuthRecentLoginRequiredException e) {
             Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "signInWithEmail:failure: " + e.getErrorCode());
+            Log.d(TAG, "task failure: " + e.getErrorCode());
 
         } catch(FirebaseAuthUserCollisionException e) {
             Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "signInWithEmail:failure: " + e.getErrorCode());
+            Log.d(TAG, "task failure: " + e.getErrorCode());
         } catch(Exception e) {
             Toast.makeText(mContext, mContext.getString(R.string.auth_failed), Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "signInWithEmail:failure: " + e.getMessage());
+            Log.d(TAG, "task failure: " + e.getMessage());
 
         }
 

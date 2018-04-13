@@ -31,32 +31,35 @@
                     android:layout_height="100dp"
                     android:id="@+id/profile_photo"
                     app:civ_border_color="@color/grey"
-                    app:civ_border_width="2dp"
+                    app:civ_border_width="1dp"
                     android:layout_margin="10dp"
                     android:layout_centerHorizontal="true" />
 
-                <!--add pictures button button-->
+                <!--add pictures button-->
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_add"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ic_add_grey"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_margin="10dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:padding="5dp"
                     android:id="@+id/btn_add"
-                    android:background="@drawable/button_circle_grey"
+                    android:background="@drawable/button_circle_white"
                     />
 
                 <!--settings button-->
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_settings"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ic_settings_grey"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_margin="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     android:id="@+id/btn_settings"
-                    android:background="@drawable/button_circle_grey"
+                    android:background="@drawable/button_circle_white"
                     />
 
             </RelativeLayout>
@@ -83,7 +86,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/relLayout3"
             android:layout_below="@+id/relLayout1"
-            android:layout_marginBottom="54dp">
+            android:layout_marginBottom="@dimen/bottom_nav_height">
 
             <GridView
                 android:layout_width="match_parent"

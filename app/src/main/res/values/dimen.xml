@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="bottom_nav_height">45dp</dimen>
+
+    <!--buttons-->
+    <dimen name="drawing_space_btn_height">50dp</dimen>
+
+
+    <!--text-->
+    <dimen name="heading1">20sp</dimen>
+    <dimen name="heading2">18sp</dimen>
+    <dimen name="heading3">16sp</dimen>
+
+    <dimen name="pre_body">15sp</dimen>
+    <dimen name="body">14sp</dimen>
+    <dimen name="sub_body">12sp</dimen>
+
+
+
+</resources>

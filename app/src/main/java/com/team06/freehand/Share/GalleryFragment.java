@@ -135,7 +135,7 @@ public class GalleryFragment extends Fragment {
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, directoryNames);
+                R.layout.snippet_gallery_spinner, directoryNames);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         directorySpinner.setAdapter(adapter); //will display all directories inside pictures and camera
