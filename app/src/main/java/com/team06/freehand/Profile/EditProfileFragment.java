@@ -120,21 +120,27 @@ public class EditProfileFragment extends Fragment {
         final long age = Long.parseLong(mAge.getText().toString());
         final String location = mLocation.getText().toString();
         final String description = mDescription.getText().toString();
-        boolean changedEmail = false;
 
         /**
-         * change the rest of the settings that do not require uniqueness
+         * change any information that has been modified
          */
+
         if(!mUser.getName().equals(name)){ //if they changed their name
             //update display name
             mFirebaseMethods.updateUser(name, 0, null, null);
         }
         if(mUser.getAge() != age){ //if they changed their age
-            //update website
-            mFirebaseMethods.updateUser(null, age, null, null);
+            if(age < 18){
+                Toast.makeText(getContext(), "Your age was not saved. You must be 18 or older to own an account", Toast.LENGTH_LONG).show();
+            }
+            else{
+                //update age
+                mFirebaseMethods.updateUser(null, age, null, null);
+            }
+
         }
         if(!mUser.getLocation().equals(location)){ //if they changed their location
-            //update description
+            //update location
             mFirebaseMethods.updateUser(null, 0, location, null);
         }
         if(!mUser.getDescription().equals(description)){ //if they changed their description

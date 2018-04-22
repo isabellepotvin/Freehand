@@ -1,6 +1,8 @@
 package com.team06.freehand.Login;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -42,31 +44,75 @@ public class LoginActivity extends AppCompatActivity {
     private Context mContext;
     private ProgressBar mProgressBar;
     private EditText mEmail, mPassword;
-    private TextView mPleaseWait;
+    private TextView mPleaseWait, mForgotPassword;
     private ImageView mBgImage;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-        mPleaseWait = (TextView) findViewById(R.id.pleaseWait);
-        mEmail = (EditText) findViewById(R.id.input_email);
-        mPassword = (EditText) findViewById(R.id.input_password);
-        mContext = LoginActivity.this;
-        mFirebaseMethods = new FirebaseMethods(mContext);
-        mBgImage = (ImageView) findViewById(R.id.bg_image);
+        try {
+            setContentView(R.layout.activity_login);
 
-        UniversalImageLoader.setImage("drawable://" + R.drawable.sketchbook_and_pens, mBgImage, null, "");
+            mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+            mPleaseWait = (TextView) findViewById(R.id.pleaseWait);
+            mEmail = (EditText) findViewById(R.id.input_email);
+            mPassword = (EditText) findViewById(R.id.input_password);
+            mContext = LoginActivity.this;
+            mFirebaseMethods = new FirebaseMethods(mContext);
+            mBgImage = (ImageView) findViewById(R.id.bg_image);
 
-        Log.d(TAG, "onCreate: started.");
+            UniversalImageLoader.setImage("drawable://" + R.drawable.sketchbook_and_pens, mBgImage, null, "");
 
-        mPleaseWait.setVisibility(View.GONE);
-        mProgressBar.setVisibility(View.GONE);
+            Log.d(TAG, "onCreate: started.");
 
-        setupFirebaseAuth();
-        init(); //login button
+            mPleaseWait.setVisibility(View.GONE);
+            mProgressBar.setVisibility(View.GONE);
+
+            setupFirebaseAuth();
+            init(); //login button
+
+            mForgotPassword = (TextView)  findViewById(R.id.tv_forgot_password);
+            mForgotPassword.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    final String email = mEmail.getText().toString();
+
+                    if(isStringNull(email)){
+                        Toast.makeText(mContext, "Please enter your email", Toast.LENGTH_SHORT).show();
+                    }else{
+                        AlertDialog.Builder newDialog = new AlertDialog.Builder(mContext);
+                        newDialog.setTitle("Reset Password");
+                        newDialog.setMessage("Do you want us to send you an email to reset your password?");
+                        newDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int which){
+                                mFirebaseMethods.resetPassword(email);
+                                dialog.dismiss();
+                            }
+                        });
+                        newDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int which){
+                                dialog.cancel();
+                            }
+                        });
+                        newDialog.show();
+                    }
+                }
+            });
+
+        }catch (OutOfMemoryError e){
+
+            Log.e(TAG, "onCreate: OutOfMemoryError" + e.getMessage() );
+
+            Intent i = getBaseContext().getPackageManager()
+                    .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+        }
+
+
 
     }
 

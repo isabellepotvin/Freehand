@@ -70,6 +70,7 @@
     <string name="string_done">Done</string>
     <string name="string_cancel">Cancel</string>
     <string name="string_brush_size">Brush Size</string>
+    <string name="string_brush_opacity">Brush Opacity</string>
     <string name="string_login">Login</string>
     <string name="string_email">Email</string>
     <string name="string_password">Password</string>
@@ -79,6 +80,9 @@
     <string name="string_drawing_space">Drawing Space</string>
     <string name="string_confirm">Confirm</string>
     <string name="string_change_email_to">Change Email to:</string>
+
+
+
 
     <!--toasts-->
     <string name="toast_fill_out_all_fields">All fields must be filled out</string>

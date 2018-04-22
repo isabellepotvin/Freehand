@@ -128,7 +128,7 @@ public class ProfileFragment extends Fragment {
                 final ArrayList<Photo> photos = new ArrayList<>();
 
                 for( DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
-                    photos.add(singleSnapshot.getValue(Photo.class));
+                    photos.add(0, singleSnapshot.getValue(Photo.class));
                 }
 
                 //setup image grid

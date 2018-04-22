@@ -27,6 +27,7 @@ import com.team06.freehand.Utils.FileSearch;
 import com.team06.freehand.Utils.GridImageAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 /**
@@ -115,7 +116,15 @@ public class GalleryFragment extends Fragment {
     private void init(){
         FilePaths filePaths = new FilePaths();
 
-        directories.add(filePaths.CAMERA);
+        //directories.add(filePaths.CAMERA);
+
+        //check for folders inside "/storage/emulated/0/DCIM"
+        if(FileSearch.getDirectoryPaths(filePaths.DCIM) != null){
+            for(int i = 0; i < FileSearch.getDirectoryPaths(filePaths.DCIM).size(); i++){
+                directories.add(FileSearch.getDirectoryPaths(filePaths.DCIM).get(i));
+            }
+        }
+
 
         //check for other folders inside "/storage/emulated/0/pictures"
         if(FileSearch.getDirectoryPaths(filePaths.PICTURES) != null){
@@ -131,7 +140,14 @@ public class GalleryFragment extends Fragment {
             //Log.d(TAG, "init: " + directories.size()); //I added this for testing
             int index = directories.get(i).lastIndexOf("/") + 1; //added +1 to remove slash
             String string = directories.get(i).substring(index);
-            directoryNames.add(string);
+
+            if(string.equals(".thumbnails")){
+                directories.remove(i);
+                i--;
+            }
+            else {
+                directoryNames.add(string);
+            }
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
@@ -163,6 +179,8 @@ public class GalleryFragment extends Fragment {
         Log.d(TAG, "setupGridView: directory chosen: " + selectedDirectory);
         final ArrayList<String> imgURLs = FileSearch.getFilePaths(selectedDirectory);
 
+        Collections.reverse(imgURLs);
+
         //set the grid column width
         int gridWidth = getResources().getDisplayMetrics().widthPixels;
         int imageWidth = gridWidth/NUM_GRID_COLUMNS;
@@ -172,21 +190,27 @@ public class GalleryFragment extends Fragment {
         GridImageAdapter adapter = new GridImageAdapter(getActivity(), R.layout.layout_grid_imageview, mAppend, imgURLs, getString(R.string.img_squareImageView));
         gridView.setAdapter(adapter);
 
-        //set the first image to be displayed when the activity fragment view is inflated
-        setImage(imgURLs.get(0), galleryImage, mAppend);
-        mSelectedImage = imgURLs.get(0);
+        try {
+            //set the first image to be displayed when the activity fragment view is inflated
+            setImage(imgURLs.get(0), galleryImage, mAppend);
+            mSelectedImage = imgURLs.get(0);
 
 
-        //set images to be displayed when they are clicked
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Log.d(TAG, "onItemClick: selected an image: " + imgURLs.get(position));
+            //set images to be displayed when they are clicked
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                    Log.d(TAG, "onItemClick: selected an image: " + imgURLs.get(position));
 
-                setImage(imgURLs.get(position), galleryImage, mAppend);
-                mSelectedImage = imgURLs.get(position);
-            }
-        });
+                    setImage(imgURLs.get(position), galleryImage, mAppend);
+                    mSelectedImage = imgURLs.get(position);
+                }
+            });
+        }
+        catch (IndexOutOfBoundsException e){
+            Log.e(TAG, "setupGridView: IndexOutOfBoundsException"+ e.getMessage());
+            mSelectedImage = null;
+        }
 
     }
 

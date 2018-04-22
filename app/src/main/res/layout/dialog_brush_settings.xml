@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="300dp"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_centerInParent="true"
@@ -52,6 +52,38 @@
                 app:bsb_show_thumb_text="false"
                 app:bsb_thumb_radius="15dp"
                 />
+
+            <!--brush opacity text-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/string_brush_opacity"
+                android:textSize="16sp"
+                android:textColor="@color/dark_grey"
+                android:layout_marginBottom="5dp"
+                />
+
+            <!--brush opacity seek bar-->
+            <com.xw.repo.BubbleSeekBar
+                android:id="@+id/brush_opacity"
+                android:layout_marginBottom="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:bsb_bubble_color="@color/dark_grey"
+                app:bsb_bubble_text_color="@android:color/white"
+                app:bsb_max="15"
+                app:bsb_min="1"
+                app:bsb_track_color="@color/primary_green"
+                app:bsb_second_track_color="@color/primary_green"
+                app:bsb_section_count="1"
+                app:bsb_show_progress_in_float="false"
+                app:bsb_show_section_mark="false"
+                app:bsb_show_section_text="false"
+                app:bsb_show_thumb_text="false"
+                app:bsb_thumb_radius="15dp"
+                />
+
+
         </LinearLayout>
 
         <!-- Cancel and done buttons -->

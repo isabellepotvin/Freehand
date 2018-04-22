@@ -1,5 +1,6 @@
 package com.team06.freehand.Share;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -93,8 +94,33 @@ public class ShareActivity extends AppCompatActivity{
                 permissions,
                 VERIFY_PERMISSIONS_REQUEST
         );
+
+        //restarts the activity
+        //((Activity)mContext).recreate();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case VERIFY_PERMISSIONS_REQUEST : {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 1
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    //restarts the activity
+                    ((Activity)mContext).recreate();
+
+                } else {
+                    ((Activity)mContext).finish();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+
+    }
 
     /**
      * Check an array of permissions

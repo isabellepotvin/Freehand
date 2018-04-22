@@ -291,6 +291,9 @@ public class FirebaseMethods {
 
                             //navigate to the profile so the user can see their photo
                             Intent intent = new Intent(mContext, ProfileActivity.class);
+
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
                             mContext.startActivity(intent);
 
                         }
@@ -462,6 +465,19 @@ public class FirebaseMethods {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - User Related Methods - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+    public void resetPassword(String emailAddress ){
+
+        mAuth.sendPasswordResetEmail(emailAddress)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "Email sent.");
+                            Toast.makeText(mContext, "Password reset email sent", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 
     public void updatePassword(String newPassword){
 
@@ -626,32 +642,36 @@ public class FirebaseMethods {
             Log.d(TAG, "task failure: " + e.getReason());
 
         } catch(FirebaseAuthActionCodeException e) {
-            Toast.makeText(mContext, e.getErrorCode(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             Log.d(TAG, "task failure: " + e.getErrorCode());
 
         } catch(FirebaseAuthEmailException e) {
-            Toast.makeText(mContext, e.getErrorCode(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             Log.d(TAG, "task failure: " + e.getErrorCode());
 
         } catch(FirebaseAuthInvalidCredentialsException e) {
-            Toast.makeText(mContext, e.getErrorCode(), Toast.LENGTH_SHORT).show();
             Log.d(TAG, "task failure: " + e.getErrorCode());
 
+            if(e.getErrorCode().equals("ERROR_WRONG_PASSWORD")){
+                Toast.makeText(mContext, "Wrong Password", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(mContext, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+
         } catch(FirebaseAuthInvalidUserException e) {
-            Toast.makeText(mContext, e.getErrorCode(), Toast.LENGTH_SHORT).show();
             Log.d(TAG, "signInWithEmail:failure: " + e.getErrorCode());
+            Toast.makeText(mContext, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
 
         } catch(FirebaseAuthRecentLoginRequiredException e) {
-            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             Log.d(TAG, "task failure: " + e.getErrorCode());
 
         } catch(FirebaseAuthUserCollisionException e) {
-            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             Log.d(TAG, "task failure: " + e.getErrorCode());
         } catch(Exception e) {
             Toast.makeText(mContext, mContext.getString(R.string.auth_failed), Toast.LENGTH_SHORT).show();
             Log.d(TAG, "task failure: " + e.getMessage());
-
         }
 
     }

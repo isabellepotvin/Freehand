@@ -250,6 +250,9 @@ public class AccountFragment extends Fragment {
                                                     }
 
                                                 }
+                                                else{
+                                                    mFirebaseMethods.displayAuthErrorMessages(task);
+                                                }
                                             }
                                         });
 

@@ -51,7 +51,7 @@ public class UniversalImageLoader {
                 .defaultDisplayImageOptions(defaultOptions)
                 .memoryCache(new WeakMemoryCache())
                 .diskCacheSize(100 * 1024 * 1024)
-                .diskCacheExtraOptions(480, 320, null) //added this to deal with out of memory an error
+                .diskCacheExtraOptions(1000, 1000, null) //added this to deal with out of memory an error
                 .threadPoolSize(3) //added this to deal with out of memory an error
                 .build();
 

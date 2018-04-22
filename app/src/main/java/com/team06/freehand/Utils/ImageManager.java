@@ -1,6 +1,9 @@
 package com.team06.freehand.Utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -45,6 +48,14 @@ public class ImageManager {
         }catch (OutOfMemoryError e){
             Log.e(TAG, "getBitmap: OutOfMemoryError: " + e.getMessage() );
             Toast.makeText(mContext, "Sorry, we couldn't upload your image.  The file is too large.", Toast.LENGTH_SHORT).show();
+            ((Activity) mContext).finish();
+
+            //restarts the app
+//            ContextWrapper wrapper = new ContextWrapper(mContext);
+//            Intent i = wrapper.getBaseContext().getPackageManager()
+//                    .getLaunchIntentForPackage( wrapper.getBaseContext().getPackageName() );
+//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            wrapper.startActivity(i);
         }
 
         finally {
@@ -87,33 +98,68 @@ public class ImageManager {
             if(byteSize > 100000000){
                 isFileTooLarge = true;
             }
-            else if(byteSize > 25000000) {
+            else if(byteSize > 70000000){
+                mQuality = 10;
+            }
+            else if(byteSize > 60000000){
                 mQuality = 20;
             }
-            else if(byteSize > 20000000){
+            else if(byteSize > 50000000){
                 mQuality = 30;
             }
-            else if(byteSize > 15000000) {
+            else if(byteSize > 40000000){
                 mQuality = 40;
             }
-            else if(byteSize > 10000000){
+            else if(byteSize > 30000000){
                 mQuality = 50;
             }
-            else if(byteSize > 8000000){
+            else if(byteSize > 25000000) {
                 mQuality = 60;
             }
-            else if(byteSize > 5000000){
+            else if(byteSize > 20000000){
                 mQuality = 70;
             }
-            else if(byteSize > 3000000){
+            else if(byteSize > 15000000) {
                 mQuality = 80;
             }
-            else if(byteSize > 1000000){
+            else if(byteSize > 10000000){
                 mQuality = 90;
             }
             else{
                 mQuality = 100;
             }
+
+//            //sets the quality of image depending on the byteSize
+//            if(byteSize > 100000000){
+//                isFileTooLarge = true;
+//            }
+//            else if(byteSize > 25000000) {
+//                mQuality = 20;
+//            }
+//            else if(byteSize > 20000000){
+//                mQuality = 30;
+//            }
+//            else if(byteSize > 15000000) {
+//                mQuality = 40;
+//            }
+//            else if(byteSize > 10000000){
+//                mQuality = 50;
+//            }
+//            else if(byteSize > 8000000){
+//                mQuality = 60;
+//            }
+//            else if(byteSize > 5000000){
+//                mQuality = 70;
+//            }
+//            else if(byteSize > 3000000){
+//                mQuality = 80;
+//            }
+//            else if(byteSize > 1000000){
+//                mQuality = 90;
+//            }
+//            else{
+//                mQuality = 100;
+//            }
 
             if(isFileTooLarge){
                 Toast.makeText(context, "Sorry, we couldn't upload your image. The file is too large.", Toast.LENGTH_SHORT).show();
@@ -127,6 +173,14 @@ public class ImageManager {
         } catch (OutOfMemoryError e){
             Log.e(TAG, "getBitmap: FileNotFoundException: " + e.getMessage() );
             Toast.makeText(context, "Sorry, we couldn't upload your image. The file is too large.", Toast.LENGTH_SHORT).show();
+            ((Activity) context).finish();
+
+            //restarts the app
+//            ContextWrapper wrapper = new ContextWrapper(context);
+//            Intent i = wrapper.getBaseContext().getPackageManager()
+//                    .getLaunchIntentForPackage( wrapper.getBaseContext().getPackageName() );
+//            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            wrapper.startActivity(i);
         }
 
         return null;

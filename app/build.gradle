@@ -57,6 +57,12 @@ dependencies {
 
     //bubble seekbar
     compile 'com.xw.repo:bubbleseekbar:3.5-lite'
+
+    //colour picker
+    compile 'com.github.yukuku:ambilwarna:2.0.1'
+
+    //firebase cloud messaging service
+    compile 'com.google.firebase:firebase-messaging:11.8.0'
 }
 
 //firebase

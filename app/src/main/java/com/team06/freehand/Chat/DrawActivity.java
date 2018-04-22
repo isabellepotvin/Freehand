@@ -1,19 +1,22 @@
 package com.team06.freehand.Chat;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,8 +28,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.team06.freehand.Dialogs.BrushSettingsDialog;
 import com.team06.freehand.R;
-import com.team06.freehand.Share.NextActivity;
+import com.team06.freehand.Share.ShareActivity;
 import com.team06.freehand.Utils.FirebaseMethods;
+import com.team06.freehand.Utils.Permissions;
 import com.xw.repo.BubbleSeekBar;
 
 import java.util.UUID;
@@ -53,13 +57,17 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
     private String chatID;
     private String otherUserID;
 
+    //constants
+    private static final int VERIFY_PERMISSIONS_REQUEST = 1;
+
 
 
 
     @Override
-    public void updatedBrushSettings(float brushSize) {
+    public void updatedBrushSettings(float brushSize, int opacity) {
         drawView.setBrushSize(brushSize);
         drawView.setLastBrushSize(brushSize);
+        drawView.setOpacity(opacity);
     }
     BrushSettingsDialog.brushSettingsListener mBrushSettingsListener;
 
@@ -97,7 +105,7 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
         settingsBtn.setOnClickListener(this);
 
         //new drawing button
-        newBtn = (ImageButton)findViewById(R.id.new_btn);
+        newBtn = (ImageButton)findViewById(R.id.colour_btn);
         newBtn.setOnClickListener(this);
 
         //save drawing button
@@ -113,40 +121,6 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
         sendBtn = (ImageButton) findViewById(R.id.send_btn);
         sendBtn.setOnClickListener(this);
 
-
-        //brush colour
-        BubbleSeekBar brushColour = (BubbleSeekBar)findViewById(R.id.brush_colour);
-        //brushColour.setProgress(drawView.getLastBrushSize());
-
-        brushColour.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
-            @Override
-            public void onProgressChanged(int progress, float progressFloat) {
-
-                //drawView.setErase(false);
-
-                //brush colour
-
-                //float hsv[] = new float[] {progressFloat, 1.0f, 0.5f};
-                //int hsl = Color.HSVToColor(hsv);
-
-                String colourHex = String.format("%06x", progress); //converts int to hex colour
-
-                //brush opacity
-                String opacityHex = "FF";
-
-                //sets brush colour and opacity
-                String colour = "#" + opacityHex + colourHex;
-
-                Log.d(TAG, "onProgressChanged: colour: " + colour);
-
-                drawView.setColor(colour);
-
-            }
-            @Override
-            public void getProgressOnActionUp(int progress, float progressFloat) { }
-            @Override
-            public void getProgressOnFinally(int progress, float progressFloat) { }
-        });
     }
 
     //creates dialog when user clicks brush, eraser, brush settings, save or new drawing buttons
@@ -162,21 +136,25 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
 
             mBrushSettingsListener = new BrushSettingsDialog.brushSettingsListener() {
                 @Override
-                public void updatedBrushSettings(float brushSize) {
+                public void updatedBrushSettings(float brushSize, int opacity) {
                     drawView.setBrushSize(brushSize);
                     drawView.setLastBrushSize(brushSize);
+                    drawView.setOpacity(opacity);
                 }
             };
 
-            BrushSettingsDialog dialog = new BrushSettingsDialog(DrawActivity.this, drawView.getLastBrushSize(), mBrushSettingsListener);
+            BrushSettingsDialog dialog = new BrushSettingsDialog(DrawActivity.this, drawView.getLastBrushSize(), mBrushSettingsListener, drawView.getOpacity());
 
-            WindowManager.LayoutParams lWindowParams = new WindowManager.LayoutParams();
-            lWindowParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-            lWindowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-            getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+            //WindowManager.LayoutParams lWindowParams = new WindowManager.LayoutParams();
+            //lWindowParams.width = displayMetrics.widthPixels - 20;
+            //lWindowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            //getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
             dialog.show();
-            dialog.getWindow().setAttributes(lWindowParams);
+            //dialog.getWindow().setAttributes(lWindowParams);
 
         }
 
@@ -197,64 +175,42 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
         }
 
 
+//        //NEW DRAWING
+//        else if(view.getId()==R.id.new_btn){
+//            //alerts user when they click new drawing button
+//            AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
+//            newDialog.setTitle("New Drawing");
+//            newDialog.setMessage("Start new drawing? You will lose the current drawing.");
+//            newDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+//                public void onClick(DialogInterface dialog, int which){
+//                    drawView.startNew();
+//                    dialog.dismiss();
+//                }
+//            });
+//            newDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+//                public void onClick(DialogInterface dialog, int which){
+//                    dialog.cancel();
+//                }
+//            });
+//            newDialog.show();
+//        }
+
         //NEW DRAWING
-        else if(view.getId()==R.id.new_btn){
-            //alerts user when they click new drawing button
-            AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
-            newDialog.setTitle("New Drawing");
-            newDialog.setMessage("Start new drawing? You will lose the current drawing.");
-            newDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
-                public void onClick(DialogInterface dialog, int which){
-                    drawView.startNew();
-                    dialog.dismiss();
-                }
-            });
-            newDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
-                public void onClick(DialogInterface dialog, int which){
-                    dialog.cancel();
-                }
-            });
-            newDialog.show();
+        else if(view.getId()==R.id.colour_btn){
+            drawView.openColourPicker(this);
         }
 
 
         //SAVE DRAWING
         else if(view.getId()==R.id.save_btn){
-            AlertDialog.Builder saveDialog = new AlertDialog.Builder(this);
-            saveDialog.setTitle("Save Drawing");
-            saveDialog.setMessage("Save drawing to device Gallery?");
-            saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
 
-                //saves image
-                public void onClick(DialogInterface dialog, int which){
-                    drawView.setDrawingCacheEnabled(true);
+            if(checkPermissionsArray(Permissions.WRITE_STORAGE_PERMISSION)){ //check if the permissions are allowed
+                saveDrawing();
+            }else{ //if they haven't been verified
+                verifyPermissions(Permissions.WRITE_STORAGE_PERMISSION); //verify permissions
+            }
 
-                    String imgSaved = MediaStore.Images.Media.insertImage( getContentResolver(), drawView.getDrawingCache(),
-                            UUID.randomUUID().toString()+".png", "drawing");
 
-                    //Log.d(TAG, "onClick: img: " + drawView.getDrawingCache());
-
-                    if(imgSaved!=null){
-                        Toast savedToast = Toast.makeText(getApplicationContext(),
-                                "Drawing saved to Gallery!", Toast.LENGTH_SHORT);
-                        savedToast.show();
-                    }
-                    else{
-                        Toast unsavedToast = Toast.makeText(getApplicationContext(),
-                                "Oops! Image could not be saved.", Toast.LENGTH_SHORT);
-                        unsavedToast.show();
-                    }
-
-                    drawView.destroyDrawingCache();
-                }
-
-            });
-            saveDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
-                public void onClick(DialogInterface dialog, int which){
-                    dialog.cancel();
-                }
-            });
-            saveDialog.show();
         }
 
 
@@ -306,6 +262,120 @@ public class DrawActivity extends AppCompatActivity implements OnClickListener, 
         Log.d(TAG, "getIntentExtras: personName: " + otherUserID);
     }
 
+    private void saveDrawing(){
+        AlertDialog.Builder saveDialog = new AlertDialog.Builder(this);
+        saveDialog.setTitle("Save Drawing");
+        saveDialog.setMessage("Save drawing to device Gallery?");
+        saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+
+            //saves image
+            public void onClick(DialogInterface dialog, int which){
+                drawView.setDrawingCacheEnabled(true);
+
+                String imgSaved = MediaStore.Images.Media.insertImage( getContentResolver(), drawView.getDrawingCache(),
+                        UUID.randomUUID().toString()+".png", "drawing");
+
+                //Log.d(TAG, "onClick: img: " + drawView.getDrawingCache());
+
+                if(imgSaved!=null){
+                    Toast savedToast = Toast.makeText(getApplicationContext(),
+                            "Drawing saved to Gallery!", Toast.LENGTH_SHORT);
+                    savedToast.show();
+                }
+                else{
+                    Toast unsavedToast = Toast.makeText(getApplicationContext(),
+                            "Drawing could not be saved", Toast.LENGTH_SHORT);
+                    unsavedToast.show();
+                }
+
+                drawView.destroyDrawingCache();
+            }
+
+        });
+        saveDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog, int which){
+                dialog.cancel();
+            }
+        });
+        saveDialog.show();
+    }
+
+    /**
+     * verify all the permissions passed to the array
+     * @param permissions
+     */
+    public void verifyPermissions(String[] permissions){
+        Log.d(TAG, "verifyPermissions: verifying permissions.");
+
+        ActivityCompat.requestPermissions(
+                DrawActivity.this,
+                permissions,
+                VERIFY_PERMISSIONS_REQUEST
+        );
+
+        //restarts the activity
+        //((Activity)mContext).recreate();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case VERIFY_PERMISSIONS_REQUEST : {
+                // If request is cancelled, the result arrays are empty.
+
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    //saves the drawing
+                    saveDrawing();
+                }
+                else{
+                    Toast.makeText(this, "Drawing could not be saved", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+
+    }
+
+    /**
+     * Check an array of permissions
+     * @param permissions
+     * @return
+     */
+    public boolean checkPermissionsArray(String[] permissions){
+        Log.d(TAG, "checkPermissionsArray: checking persmissions array.");
+
+        for(int i = 0; i < permissions.length; i++){
+            String check = permissions[i];
+            if(!checkPermissions(check)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Check a signle permission if it has been verified
+     * @param permission
+     * @return
+     */
+    public boolean checkPermissions(String permission){
+        Log.d(TAG, "checkPermissions: checking permission " + permission);
+
+        int permissionRequest = ActivityCompat.checkSelfPermission(DrawActivity.this, permission);
+
+        if(permissionRequest != PackageManager.PERMISSION_GRANTED){
+            Log.d(TAG, "checkPermissions: \n Permissions was not granted for: " + permission);
+            return false;
+        }
+        else{
+            Log.d(TAG, "checkPermissions: \n Permissions was granted for: " + permission);
+            return true;
+        }
+    }
 
 
      /*

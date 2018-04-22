@@ -20,6 +20,8 @@ import android.widget.ImageView;
 
 import com.team06.freehand.R;
 
+import yuku.ambilwarna.AmbilWarnaDialog;
+
 
 /**
  * Created by isabellepotvin on 2018-01-29.
@@ -35,8 +37,15 @@ public class DrawingView extends View {
     private Path drawPath;
     //drawing and canvas paint
     private Paint drawPaint, canvasPaint;
+
     //initial color
-    private int paintColor = 0xFF660000;
+    private int paintColor = 0xFF23CF7F;
+
+    //brush opacity
+    String hexColor = "23CF7F";
+    String opacityHex = "FF";
+    int opacity = 15;
+
     //canvas
     private Canvas drawCanvas;
     //canvas bitmap
@@ -126,9 +135,12 @@ public class DrawingView extends View {
     }
 
 
-    public void setColor(String newColor){
+    public void setColor(){
         invalidate();
-        paintColor = Color.parseColor(newColor);
+
+        String colour = "#" + opacityHex + hexColor;
+
+        paintColor = Color.parseColor(colour);
         drawPaint.setColor(paintColor);
     }
 
@@ -142,6 +154,19 @@ public class DrawingView extends View {
 
     }
 
+    public void setOpacity(int opacity){
+
+        this.opacity = opacity;
+
+        String singleHex = Integer.toString(opacity, 16);
+
+        opacityHex = singleHex + singleHex;
+
+        //sets brush colour and opacity
+        setColor();
+    }
+
+
     //setter
     public void setLastBrushSize(float lastSize){
         lastBrushSize=lastSize;
@@ -151,6 +176,12 @@ public class DrawingView extends View {
     public float getLastBrushSize(){
         return lastBrushSize;
     }
+
+    public int getOpacity() {
+        return opacity;
+    }
+
+
 
     public int getPaintColor() {
         return paintColor;
@@ -168,6 +199,26 @@ public class DrawingView extends View {
     public void startNew(){
         drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
         invalidate();
+    }
+
+    public void openColourPicker(Context context){
+        AmbilWarnaDialog colourPicker = new AmbilWarnaDialog(context, paintColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
+            @Override
+            public void onCancel(AmbilWarnaDialog dialog) {
+
+            }
+
+            @Override
+            public void onOk(AmbilWarnaDialog dialog, int color) {
+
+                hexColor = String.format("%06X", (0xFFFFFF & color));
+
+                //sets brush colour and opacity
+                setColor();
+                Log.d(TAG, "onOk: new Colour: " );
+            }
+        });
+        colourPicker.show();
     }
 
     public void setupCloseBtn(ImageView button){

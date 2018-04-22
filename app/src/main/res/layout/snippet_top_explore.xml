@@ -2,29 +2,39 @@
 <merge xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:layout_alignParentTop="true"
-        android:background="@drawable/grey_border_bottom_white"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:background="@drawable/border_bottom_grey"
+        >
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_freehand_hand_black"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textColor="@color/black"
-            android:textSize="30sp"
-            />
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal"
+            android:gravity="center">
 
-    </LinearLayout>
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/freehand_hand_grey"
+                />
+
+            <ImageView
+                android:layout_width="119dp"
+                android:layout_height="23dp"
+                android:textColor="@color/black"
+                android:textSize="30sp"
+                android:src="@drawable/freehand_text_grey"
+                />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
 
 
 </merge>

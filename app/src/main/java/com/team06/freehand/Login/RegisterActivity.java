@@ -99,7 +99,7 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(mContext, R.string.toast_fill_out_all_fields, Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(Long.parseLong(age) <= 18){
+        if(Long.parseLong(age) < 18){
             Toast.makeText(mContext, R.string.toast_18_or_older, Toast.LENGTH_SHORT).show();
             return false;
         }

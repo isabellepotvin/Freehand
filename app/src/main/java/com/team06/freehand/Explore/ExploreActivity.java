@@ -94,8 +94,6 @@ public class ExploreActivity extends AppCompatActivity {
 
         mFirebaseMethods = new FirebaseMethods(mContext);
 
-        //calculate height of user info to be able to set the margin bottom of the listView
-
         setupFirebaseAuth();
 
         initImageLoader();
