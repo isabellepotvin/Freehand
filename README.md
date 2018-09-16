@@ -1,7 +1,6 @@
 # Freehand
 
-Freehand was developped as part of a Design Studio class where the students were put into teams of four and were tasked to create a  large-scale multimedia product. Freehand was a four month long project that consisted of project & team management, research and design, product design & development, marketing and more. 
-- weekly project updates, design documentation, prototyping, presentations, user testing, marketing, mockups, brand design, 
+Freehand was developped as part of a Design Studio course where the students were put into teams of four and were tasked to create a  large-scale multimedia product. Freehand was a four month long project that consisted of project & team management, research and design, product design & development, marketing and more. Throughout the term, my team delivered weekly project updates, a project proposal, a project pitch presentation, a design document, and an alpha prototype, as well as delivered and presented the final product. 
 
 
 ## Roles and Responsibilities 
@@ -9,11 +8,9 @@ Freehand was developped as part of a Design Studio class where the students were
 Early on, my team members and I discussed each of our strengths and decided on roles for one another. Some of these roles included Project Manager, Brand Designer, Graphic Designer, UX/UI Designer, Software Developer and Marketing Lead. I stepped into the roles of Project Manager and Software Designer.
 
 As the Project Manager, my responsibilities included: 
-- oversee the project
-- making sure that tasks were defined, planned and completed on time
-- updating the group on the project status
-- running weekly update meetings
-- ensure the team does not lose sight of the end goal
+- leading weekly update meetings
+- setting targets and monitoring progress (using KanBan board)
+- ensuring quality and on-time delivery of the project
 
 As the Software Developer, my responsibilities included:
 - developing the application
