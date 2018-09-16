@@ -1,6 +1,6 @@
 # Freehand
 
-Freehand was developped as part of a Design Studio course where the students were put into teams of four and were tasked to create a  large-scale multimedia product. Freehand was a four month long project that consisted of project & team management, research and design, product design & development, marketing and more. Throughout the term, my team delivered weekly project updates, a project proposal, a project pitch presentation, a design document, and an alpha prototype, as well as delivered and presented the final product. 
+Freehand was developped as part of a Design Studio course where the students were put into teams of four and were tasked to create a  large-scale multimedia product. Freehand was a four month long project that consisted of project & team management, research & design, product design & development, marketing, and more. Throughout the term, my team delivered weekly project updates, a project proposal, a project pitch presentation, a design document, and an alpha prototype. We also delivered and presented the final product. 
 
 
 ## Roles and Responsibilities 
